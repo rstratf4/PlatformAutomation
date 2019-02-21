@@ -1,0 +1,24 @@
+# Platform Automation
+platform_automation_slug: platform-automation
+platform_automation_version: 2\.1\..*
+
+## env.yml
+env_config:
+  target: https://opsman_url
+  connect-timeout: 30            # default 5
+  request-timeout: 1800          # default 1800
+  skip-ssl-validation: true      # default false
+  client-id: (())
+  client-secret: (())
+  # decryption-passphrase is optionaz,
+  # except for use with `import-installation`.
+  # OpsMan depends on the passphrase
+  # to decrypt the imported installation.
+  # For other commands, providing this key allows
+  # decryption of the OpsMan VM after reboot,
+  # which would otherwise need to be done manually.
+  decryption-passphrase: (())
+
+# Pivotal Metrics
+pivotal_metrics_version: 1\.6\..*
+pivotal_metrics_stemcell_version:  170\..*

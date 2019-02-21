@@ -1,0 +1,265 @@
+resource_types:
+- name: azure-blobstore
+  type: docker-image
+  source:
+    repository: pcfabr/azure-blobstore-resource
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+- name: terraform-code
+  type: git
+  source:
+    uri: uri
+    branch: master
+    private_key: |
+        (())
+
+- name: platform-automation-tasks
+  type: pivnet
+  source:
+    api_token: ((pivnet_api_token))
+    product_slug: ((platform_automation_slug))
+    product_version: ((platform_automation_version))
+
+- name: platform-automation-image
+  type: pivnet
+  source:
+    api_token: ((pivnet_api_token))
+    product_slug: ((platform_automation_slug))
+    product_version: ((platform_automation_version))
+- name: pas-binary
+  type: pivnet
+  source:
+    api_token: ((pivnet_api_token))
+    product_slug: ((pas_product_slug))
+    product_version: ((pas_version))
+
+- name: pas-stemcell-binary
+  type: pivnet
+  source:
+    api_token: ((pivnet_api_token))
+    product_slug: stemcells-ubuntu-xenial
+    sort_by: semver
+    product_version: ((pas_stemcell_version))
+
+jobs:
+- name: terraform-base-infrastructure
+  public: true
+  plan:
+  - get: terraform-code
+    trigger: true
+  - task: execute-terraform
+    params:
+      TERRAFORM_ENV: ((terraform_env))
+      ARM_ACCESS_KEY: (()) # Required env variable for TF Backend
+      TF_VAR_client_id: (()) # TF_VAR variables required for terraform execution
+      TF_VAR_client_secret: (())
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: pcfnorm/rootfs
+          tag: 1.0.25
+      inputs:
+      - name: terraform-code
+      run:
+        path: bash
+        args:
+        - "-c"
+        - |
+          set -eux
+          cd ./terraform-code/terraforming-pas
+          wget https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip -O terraform.zip
+          unzip terraform.zip
+          ./terraform init
+          ./terraform workspace select "$TERRAFORM_ENV"
+          ./terraform plan -var-file=../configs/${TERRAFORM_ENV}/terraform.tfvars -out=plan
+          ./terraform apply plan
+
+
+- name: configure-opsman-auth
+  serial: true
+  plan:
+  - aggregate:
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+        globs: ["platform-automation-tasks-*.zip"]
+    - get: platform-automation-image
+      params:
+        unpack: true
+        globs: ["platform-automation-image-*.tgz"]
+
+  - task: generate-configs
+    image: platform-automation-image
+    params:
+      AUTH_CONFIG: ((auth_config))
+      ENV_CONFIG: ((env_config))
+    config:
+      outputs:
+        - name: config
+        - name: env
+      platform: linux
+      run:
+        path: bash
+        args:
+        - "-c"
+        - |
+          set -eux
+          printenv AUTH_CONFIG > config/auth.yml
+          printenv ENV_CONFIG > env/env.yml
+
+  - task: configure-authentication
+    image: platform-automation-image
+    attempts: 20
+    file: platform-automation-tasks/tasks/configure-saml-authentication.yml
+
+- name: configure-opsman-ssl
+  serial: true
+  plan:
+  - get: platform-automation-image
+    params:
+      unpack: true
+      globs: ["platform-automation-image-*.tgz"]
+  - task: generate-configs
+    image: platform-automation-image
+    params:
+      ENV_CONFIG: ((env_config))
+    config:
+      outputs:
+        - name: env
+      platform: linux
+      run:
+        path: bash
+        args:
+        - "-c"
+        - |
+          bosh interpolate <(echo "${ENV_CONFIG}") > env/env.yml
+
+  - task: update-opsman-ssl-cert
+    image: platform-automation-image
+    params:
+      OPSMAN_SSL_CERT: |
+        (())
+      OPSMAN_SSL_PRIVATE_KEY: |
+        (())
+    config:
+      inputs:
+        - name: env
+      params:
+        ENV_FILE: env.yml
+      platform: linux
+      run:
+        path: bash
+        args:
+        - "-c"
+        - |
+          cat /var/version && echo ""
+          set -eu
+          om --env env/"${ENV_FILE}" update-ssl-certificate \
+             --certificate-pem "$(printenv OPSMAN_SSL_CERT | awk 'BEGIN {RS=""}{gsub(/\\n/,"\n",$0); print $0}')" \
+             --private-key-pem "$(printenv OPSMAN_SSL_PRIVATE_KEY | awk 'BEGIN {RS=""}{gsub(/\\n/,"\n",$0); print $0}')"
+
+- name: configure-director
+  serial: true
+  plan:
+  - aggregate:
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+        globs: ["platform-automation-tasks-*.zip"]
+    - get: platform-automation-image
+      params:
+        unpack: true
+        globs: ["platform-automation-image-*.tgz"]
+
+  - task: generate-configs
+    image: platform-automation-image
+    params:
+      DIRECTOR_CONFIG: ((director_config))
+      ENV_CONFIG: ((env_config))
+    config:
+      outputs:
+        - name: config
+        - name: env
+      platform: linux
+      run:
+        path: bash
+        args:
+        - "-c"
+        - |
+          set -eux
+          bosh interpolate <(echo "${DIRECTOR_CONFIG}") > config/director.yml
+          printenv ENV_CONFIG > env/env.yml
+  - task: configure-director
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/configure-director.yml
+
+  - task: apply-director-changes
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/apply-director-changes.yml
+
+- name: install-configure-pas
+  serial: true
+  plan:
+  - aggregate:
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+        globs: ["platform-automation-tasks-*.zip"]
+    - get: platform-automation-image
+      params:
+        unpack: true
+        globs: ["platform-automation-image-*.tgz"]
+    - get: pas-stemcell-binary
+      params:
+        globs: [((pas_stemcell_glob))]
+    - get: pas-binary
+      params:
+        globs: [((pas_glob))]
+
+  - task: generate-configs
+    image: platform-automation-image
+    params:
+      PAS_CONFIG: ((pas_config))
+      ENV_CONFIG: ((env_config))
+    config:
+      outputs:
+        - name: config
+        - name: env
+      platform: linux
+      run:
+        path: bash
+        args:
+        - "-c"
+        - |
+          set -eux
+          bosh interpolate <(echo "${PAS_CONFIG}") > config/pas.yml
+          printenv ENV_CONFIG > env/env.yml
+
+  - task: upload-and-stage-product
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/upload-and-stage-product.yml
+    input_mapping:
+      product: pas-binary
+
+  - task: upload-stemcell
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/upload-stemcell.yml
+    input_mapping:
+      stemcell: pas-stemcell-binary
+
+  - task: configure-pas
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/configure-product.yml
+    params:
+      CONFIG_FILE: pas.yml
+
+  - task: apply-changes
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/apply-changes.yml
