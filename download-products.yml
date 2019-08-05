@@ -794,3 +794,85 @@ jobs:
     - put: platform-automation-image
       params:
         file: platform-automation-pivnet/*image*.tgz
+        
+- name: fetch-awsservicebroker
+  plan:
+  - aggregate:
+    - get: daily
+      trigger: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: config
+  - task: credhub-interpolate
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/credhub-interpolate.yml
+    params:
+      CREDHUB_CLIENT: ((credhub-client))
+      CREDHUB_SECRET: ((credhub-secret))
+      CREDHUB_SERVER: ((credhub-server))
+      CREDHUB_CA_CERT: ((credhub-ca.certificate))
+      PREFIX: '/concourse/((foundation))'
+      INTERPOLATION_PATH: "((foundation))/download-product-configs"
+    input_mapping:
+      files: config
+    output_mapping:
+      interpolated-files: config
+  - task: download-awsservicebroker-product-and-stemcell
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/download-product.yml
+    params:
+      CONFIG_FILE: ((foundation))/download-product-configs/awsservicebroker.yml
+    output_mapping: {downloaded-stemcell: awsservicebroker-stemcell}
+  - aggregate:
+    - put: awsservicebroker-product
+      params:
+        file: downloaded-product/*.pivotal
+    - put: awsservicebroker-stemcell
+      params:
+        file: awsservicebroker-stemcell/*.tgz
+
+- name: fetch-pcloudcache
+  plan:
+  - aggregate:
+    - get: daily
+      trigger: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: config
+  - task: credhub-interpolate
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/credhub-interpolate.yml
+    params:
+      CREDHUB_CLIENT: ((credhub-client))
+      CREDHUB_SECRET: ((credhub-secret))
+      CREDHUB_SERVER: ((credhub-server))
+      CREDHUB_CA_CERT: ((credhub-ca.certificate))
+      PREFIX: '/concourse/((foundation))'
+      INTERPOLATION_PATH: "((foundation))/download-product-configs"
+    input_mapping:
+      files: config
+    output_mapping:
+      interpolated-files: config
+  - task: download-pcloudcache-product-and-stemcell
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/download-product.yml
+    params:
+      CONFIG_FILE: ((foundation))/download-product-configs/pcloudcache.yml
+    output_mapping: {downloaded-stemcell: pcloudcache-stemcell}
+  - aggregate:
+    - put: pcloudcache-product
+      params:
+        file: downloaded-product/*.pivotal
+    - put: pcloudcache-stemcell
+      params:
+        file: pcloudcache-stemcell/*.tgz
+
+        
