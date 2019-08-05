@@ -267,6 +267,46 @@ resources:
     region_name: ((s3.region_name))
     secret_access_key: ((s3.secret_access_key))
     regexp: platform-automation-image-(.*).tgz
+    
+- name: pcloudcache-product
+  type: s3
+  source:
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.bucket))
+    region_name: ((s3.region_name))
+    
+    secret_access_key: ((s3.secret_access_key))
+    regexp: p-cloudcache-(.*).pivotal
+
+- name: pcloudcache-stemcell
+  type: s3
+  source:
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.bucket))
+    region_name: ((s3.region_name))
+    
+    secret_access_key: ((s3.secret_access_key))
+    regexp: pcloudcache-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    
+- name: awsservicebroker-product
+  type: s3
+  source:
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.bucket))
+    region_name: ((s3.region_name))
+    
+    secret_access_key: ((s3.secret_access_key))
+    regexp: aws-services-(.*).pivotal
+
+- name: awsservicebroker-stemcell
+  type: s3
+  source:
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.bucket))
+    region_name: ((s3.region_name))
+    
+    secret_access_key: ((s3.secret_access_key))
+    regexp: awsservicebroker/bosh-stemcell-(.*)-vsphere.*\.tgz
 
 jobs:
 - name: fetch-pks
