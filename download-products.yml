@@ -38,7 +38,7 @@ resources:
     
     region_name: ((s3.region_name))
     secret_access_key: ((s3.secret_access_key))
-    regexp: pks-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    regexp: pks-stemcell/bosh-stemcell-(.*)-aws.*\.tgz
 
 - name: sso-product
   type: s3
@@ -58,7 +58,7 @@ resources:
     
     region_name: ((s3.region_name))
     secret_access_key: ((s3.secret_access_key))
-    regexp: sso-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    regexp: sso-stemcell/bosh-stemcell-(.*)-aws.*\.tgz
 
 - name: healthwatch-product
   type: s3
@@ -78,7 +78,7 @@ resources:
     
     region_name: ((s3.region_name))
     secret_access_key: ((s3.secret_access_key))
-    regexp: healthwatch-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    regexp: healthwatch-stemcell/bosh-stemcell-(.*)-aws.*\.tgz
 
 - name: apm-product
   type: s3
@@ -98,7 +98,7 @@ resources:
     
     region_name: ((s3.region_name))
     secret_access_key: ((s3.secret_access_key))
-    regexp: apm-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    regexp: apm-stemcell/bosh-stemcell-(.*)-aws.*\.tgz
 
 - name: mysql-product
   type: s3
@@ -118,7 +118,7 @@ resources:
     region_name: ((s3.region_name))
     
     secret_access_key: ((s3.secret_access_key))
-    regexp: mysql-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    regexp: mysql-stemcell/bosh-stemcell-(.*)-aws.*\.tgz
 
 - name: spring-cloud-services-product
   type: s3
@@ -138,7 +138,7 @@ resources:
     region_name: ((s3.region_name))
     
     secret_access_key: ((s3.secret_access_key))
-    regexp: spring-cloud-services-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    regexp: spring-cloud-services-stemcell/bosh-stemcell-(.*)-aws.*\.tgz
 
 - name: event-alerts-product
   type: s3
@@ -158,7 +158,7 @@ resources:
     region_name: ((s3.region_name))
     
     secret_access_key: ((s3.secret_access_key))
-    regexp: event-alerts-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    regexp: event-alerts-stemcell/bosh-stemcell-(.*)-aws.*\.tgz
 
 - name: rabbitmq-product
   type: s3
@@ -178,7 +178,7 @@ resources:
     region_name: ((s3.region_name))
     
     secret_access_key: ((s3.secret_access_key))
-    regexp: rabbitmq-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    regexp: rabbitmq-stemcell/bosh-stemcell-(.*)-aws.*\.tgz
 
 - name: redis-product
   type: s3
@@ -198,7 +198,7 @@ resources:
     region_name: ((s3.region_name))
     
     secret_access_key: ((s3.secret_access_key))
-    regexp: redis-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    regexp: redis-stemcell/bosh-stemcell-(.*)-aws.*\.tgz
 
 - name: opsman-product
   type: s3
@@ -208,7 +208,7 @@ resources:
     
     region_name: ((s3.region_name))
     secret_access_key: ((s3.secret_access_key))
-    regexp: ops-manager-vsphere-(.*).ova
+    regexp: ops-manager-vsphere-(.*).yml
 
 - name: pas-product
   type: s3
@@ -228,7 +228,7 @@ resources:
     
     region_name: ((s3.region_name))
     secret_access_key: ((s3.secret_access_key))
-    regexp: pas-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    regexp: pas-stemcell/bosh-stemcell-(.*)-aws.*\.tgz
 
 - name: pas-windows-product
   type: s3
@@ -286,7 +286,7 @@ resources:
     region_name: ((s3.region_name))
     
     secret_access_key: ((s3.secret_access_key))
-    regexp: pcloudcache-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    regexp: pcloudcache-stemcell/bosh-stemcell-(.*)-aws.*\.tgz
     
 - name: awsservicebroker-product
   type: s3
@@ -306,7 +306,7 @@ resources:
     region_name: ((s3.region_name))
     
     secret_access_key: ((s3.secret_access_key))
-    regexp: awsservicebroker/bosh-stemcell-(.*)-vsphere.*\.tgz
+    regexp: awsservicebroker/bosh-stemcell-(.*)-aws.*\.tgz
 
 jobs:
 - name: fetch-pks
