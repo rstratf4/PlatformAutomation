@@ -401,25 +401,25 @@ jobs:
       params:
         unpack: true
     - get: config
-  - task: credhub-interpolate
-    image: platform-automation-image
-    file: platform-automation-tasks/tasks/credhub-interpolate.yml
-    params:
-      CREDHUB_CLIENT: ((credhub-client))
-      CREDHUB_SECRET: ((credhub-secret))
-      CREDHUB_SERVER: ((credhub-server))
-      CREDHUB_CA_CERT: ((credhub-ca.certificate))
-      PREFIX: '/concourse/((foundation))'
-      INTERPOLATION_PATH: "((foundation))/download-product-configs"
-    input_mapping:
-      files: config
-    output_mapping:
-      interpolated-files: config
+#  - task: credhub-interpolate
+#    image: platform-automation-image
+#    file: platform-automation-tasks/tasks/credhub-interpolate.yml
+#    params:
+#      CREDHUB_CLIENT: ((credhub-client))
+#      CREDHUB_SECRET: ((credhub-secret))
+#      CREDHUB_SERVER: ((credhub-server))
+#      CREDHUB_CA_CERT: ((credhub-ca.certificate))
+#      PREFIX: '/concourse/((foundation))'
+#      INTERPOLATION_PATH: "((foundation))/download-product-configs"
+#    input_mapping:
+#      files: config
+#    output_mapping:
+#      interpolated-files: config
   - task: download-spring-cloud-services-product-and-stemcell
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
-      CONFIG_FILE: ((foundation))/download-product-configs/spring-cloud-services.yml
+      CONFIG_FILE: download-product-configs/spring-cloud-services.yml
     output_mapping: {downloaded-stemcell: spring-cloud-services-stemcell}
   - aggregate:
     - put: spring-cloud-services-product
@@ -441,25 +441,25 @@ jobs:
       params:
         unpack: true
     - get: config
-  - task: credhub-interpolate
-    image: platform-automation-image
-    file: platform-automation-tasks/tasks/credhub-interpolate.yml
-    params:
-      CREDHUB_CLIENT: ((credhub-client))
-      CREDHUB_SECRET: ((credhub-secret))
-      CREDHUB_SERVER: ((credhub-server))
-      CREDHUB_CA_CERT: ((credhub-ca.certificate))
-      PREFIX: '/concourse/((foundation))'
-      INTERPOLATION_PATH: "((foundation))/download-product-configs"
-    input_mapping:
-      files: config
-    output_mapping:
-      interpolated-files: config
+#  - task: credhub-interpolate
+#    image: platform-automation-image
+#    file: platform-automation-tasks/tasks/credhub-interpolate.yml
+#    params:
+#      CREDHUB_CLIENT: ((credhub-client))
+#      CREDHUB_SECRET: ((credhub-secret))
+#      CREDHUB_SERVER: ((credhub-server))
+#      CREDHUB_CA_CERT: ((credhub-ca.certificate))
+#      PREFIX: '/concourse/((foundation))'
+#      INTERPOLATION_PATH: "((foundation))/download-product-configs"
+#    input_mapping:
+#      files: config
+#    output_mapping:
+#      interpolated-files: config
   - task: download-event-alerts-product-and-stemcell
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
-      CONFIG_FILE: ((foundation))/download-product-configs/event-alerts.yml
+      CONFIG_FILE: download-product-configs/event-alerts.yml
     output_mapping: {downloaded-stemcell: event-alerts-stemcell}
   - aggregate:
     - put: event-alerts-product
