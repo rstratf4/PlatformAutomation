@@ -2009,3 +2009,40 @@ jobs:
         params:
           PRODUCT_NAME: p-rabbitmq
           ENV_FILE: ((foundation))/env/env.yml
+
+  - name: staged-redis-config
+    plan:
+      - aggregate:
+          - get: pcf-automation-image
+            params:
+              unpack: true
+            passed:
+              - configure-redis
+            trigger: true
+          - get: pcf-automation-tasks
+            params:
+              unpack: true
+          - get: configuration
+          - get: variable
+      - task: credhub-interpolate-env
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
+        params:
+          CREDHUB_CLIENT: ((credhub-client))
+          CREDHUB_SECRET: ((credhub-secret))
+          CREDHUB_SERVER: ((credhub-server))
+          CREDHUB_CA_CERT: ((credhub-ca.certificate))
+          PREFIX: '/concourse/((foundation))'
+          INTERPOLATION_PATH: "((foundation))/env"
+        input_mapping:
+          files: configuration
+        output_mapping:
+          interpolated-files: env-int
+      - task: staged-config
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/staged-config.yml
+        input_mapping:
+          env: env-int
+        params:
+          PRODUCT_NAME: p-redis
+          ENV_FILE: ((foundation))/env/env.yml
