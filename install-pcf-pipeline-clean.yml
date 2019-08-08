@@ -119,8 +119,6 @@ resources:
       bucket: ((s3.buckets.pivnet_products))
       regexp: p-event-alerts-(.*).pivotal
 
-
-
   - name: pas-windows-product
     type: s3
     source:
