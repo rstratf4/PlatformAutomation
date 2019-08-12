@@ -1,12 +1,12 @@
 ---
-pivnet-api-token: ((pivnet-token))
+pivnet-api-token: "_gzVpgisXwCFCjLqUUhm"
 pivnet-file-glob: "*.pivotal"
 pivnet-product-slug: p-healthwatch
 product-version: 1.6.1
 stemcell-iaas: vsphere
 
-s3-access-key-id: ((s3_access_key_id))
-s3-secret-access-key: ((s3_secret_access_key))
-s3-bucket: ((s3_pivnet_products_bucket))
-s3-region-name: ((s3_region_name))
+s3-access-key-id: AKIAJ3DLOTFJVCXIJKBA
+s3-secret-access-key: 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
+s3-bucket: hotrodsproducts
+s3-region-name: us-east-2
 s3-stemcell-path: healthwatch-stemcell
