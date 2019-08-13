@@ -15,7 +15,7 @@ resources:
       access_key_id: ((s3_access_key_id))
       secret_access_key: ((s3_secret_access_key))
       region_name: ((s3_region_name))
-      endpoint: ((s3.endpoint))
+      endpoint: ((s3_endpoint))
       bucket: ((s3_buckets_pivnet_products))
       regexp: .*image-(.*).tgz
 
@@ -252,7 +252,7 @@ resources:
     type: git
     source:
       private_key: ((pcf-automation-ssh-key_private_key))
-      uri: ((variable_uri))
+      uri: ((configuration_uri))
       branch: master
 
   # triggers used to have jobs do something in a timely manner
@@ -283,34 +283,34 @@ jobs:
           - get: opsman-image
           - get: configuration
           - get: variable
-      - task: credhub-interpolate-vars
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
-        params:
-          CREDHUB_CLIENT: ((credhub-client))
-          CREDHUB_SECRET: ((credhub-secret))
-          CREDHUB_SERVER: ((credhub-server))
-          CREDHUB_CA_CERT: ((credhub-ca.certificate))
-          PREFIX: '/concourse/((foundation))'
-          INTERPOLATION_PATH: "((foundation))/vars"
-        input_mapping:
-          files: configuration
-        output_mapping:
-          interpolated-files: vars-int
-      - task: credhub-interpolate-env
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
-        params:
-          CREDHUB_CLIENT: ((credhub-client))
-          CREDHUB_SECRET: ((credhub-secret))
-          CREDHUB_SERVER: ((credhub-server))
-          CREDHUB_CA_CERT: ((credhub-ca.certificate))
-          PREFIX: '/concourse/((foundation))'
-          INTERPOLATION_PATH: "((foundation))/env"
-        input_mapping:
-          files: configuration
-        output_mapping:
-          interpolated-files: env-int
+#      - task: credhub-interpolate-vars
+#        image: pcf-automation-image
+#        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
+#        params:
+#          CREDHUB_CLIENT: ((credhub-client))
+#          CREDHUB_SECRET: ((credhub-secret))
+#          CREDHUB_SERVER: ((credhub-server))
+#          CREDHUB_CA_CERT: ((credhub-ca.certificate))
+#          PREFIX: '/concourse/((foundation))'
+#          INTERPOLATION_PATH: "((foundation))/vars"
+#        input_mapping:
+#          files: configuration
+#        output_mapping:
+#          interpolated-files: vars-int
+#      - task: credhub-interpolate-env
+#        image: pcf-automation-image
+#        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
+#        params:
+#          CREDHUB_CLIENT: ((credhub-client))
+#          CREDHUB_SECRET: ((credhub-secret))
+#          CREDHUB_SERVER: ((credhub-server))
+#          CREDHUB_CA_CERT: ((credhub-ca.certificate))
+#          PREFIX: '/concourse/((foundation))'
+#          INTERPOLATION_PATH: "((foundation))/env"
+#        input_mapping:
+#          files: configuration
+#        output_mapping:
+#          interpolated-files: env-int
       - task: create-vm
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/create-vm.yml
@@ -318,7 +318,7 @@ jobs:
           image: opsman-image
           state: configuration
           config: configuration
-          vars: vars-int
+#          vars: vars-int
         params:
           VARS_FILES: vars/((foundation))/vars/opsman-vars.yml
           STATE_FILE: ((foundation))/state/state.yml
@@ -349,7 +349,7 @@ jobs:
         attempts: 10
         input_mapping:
           env: env-int
-          config: vars-int
+#          config: vars-int
         params:
           ENV_FILE: ((foundation))/env/env.yml
           AUTH_CONFIG_FILE: ((foundation))/vars/opsman-auth.yml
@@ -359,7 +359,7 @@ jobs:
         input_mapping:
           config: configuration
           env: env-int
-          vars: vars-int
+#          vars: vars-int
         params:
           VARS_FILES: vars/((foundation))/vars/director-vars.yml
           ENV_FILE: ((foundation))/env/env.yml
@@ -383,20 +383,20 @@ jobs:
             passed:
               - export-installation
           - get: configuration
-      - task: credhub-interpolate-env
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
-        params:
-          CREDHUB_CLIENT: ((credhub-client))
-          CREDHUB_SECRET: ((credhub-secret))
-          CREDHUB_SERVER: ((credhub-server))
-          CREDHUB_CA_CERT: ((credhub-ca.certificate))
-          PREFIX: '/concourse/((foundation))'
-          INTERPOLATION_PATH: "((foundation))/env"
-        input_mapping:
-          files: configuration
-        output_mapping:
-          interpolated-files: env-int
+#      - task: credhub-interpolate-env
+#        image: pcf-automation-image
+#        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
+#        params:
+#          CREDHUB_CLIENT: ((credhub-client))
+#          CREDHUB_SECRET: ((credhub-secret))
+#          CREDHUB_SERVER: ((credhub-server))
+#          CREDHUB_CA_CERT: ((credhub-ca.certificate))
+#          PREFIX: '/concourse/((foundation))'
+#          INTERPOLATION_PATH: "((foundation))/env"
+#        input_mapping:
+#          files: configuration
+#        output_mapping:
+#          interpolated-files: env-int
       - task: staged-director-config
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/staged-director-config.yml
