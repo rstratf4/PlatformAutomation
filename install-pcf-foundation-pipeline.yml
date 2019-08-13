@@ -32,227 +32,227 @@ resources:
   - name: opsman-image
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      bucket: ((s3.buckets.pivnet_products))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      secret_access_key: ((s3.secret_access_key))
+      access_key_id: ((s3_access_key_id))
+      bucket: ((s3_buckets_pivnet_products))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      secret_access_key: ((s3_secret_access_key))
       regexp: ((opsman_image_s3_versioned_regexp)) # vsphere ex: pcf-vsphere-(.*).ova
 
   - name: pas-stemcell
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: pas-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
   - name: pas-product
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: cf-(.*).pivotal
 
   - name: apm-stemcell
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: apm-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
   - name: apm-product
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: apm-(.*).pivotal
 
   - name: spring-cloud-services-stemcell
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: spring-cloud-services-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
   - name: spring-cloud-services-product
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: p-spring-cloud-services-(.*).pivotal
 
   - name: event-alerts-stemcell
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: event-alerts-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
   - name: event-alerts-product
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: p-event-alerts-(.*).pivotal
 
   - name: pas-windows-product
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      bucket: ((s3.buckets.pivnet_products))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      secret_access_key: ((s3.secret_access_key))
+      access_key_id: ((s3_access_key_id))
+      bucket: ((s3_buckets_pivnet_products))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      secret_access_key: ((s3_secret_access_key))
       regexp: pas-windows-(.*).pivotal
 
   - name: pas-windows-stemcell
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      bucket: ((s3.buckets.pivnet_products))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      secret_access_key: ((s3.secret_access_key))
+      access_key_id: ((s3_access_key_id))
+      bucket: ((s3_buckets_pivnet_products))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      secret_access_key: ((s3_secret_access_key))
       regexp: pas-windows-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
   - name: healthwatch-stemcell
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: healthwatch-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
   - name: healthwatch-product
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: p-healthwatch-(.*).pivotal
 
   - name: sso-stemcell
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: sso-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
   - name: sso-product
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: Pivotal_Single_Sign-On_Service_(.*).pivotal
 
   - name: rabbitmq-stemcell
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: rabbitmq-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
   - name: rabbitmq-product
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: p-rabbitmq-(.*).pivotal
 
 
   - name: mysql-stemcell
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: mysql-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
   - name: mysql-product
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: pivotal-mysql-(.*).pivotal
 
   - name: redis-stemcell
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: redis-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
   - name: redis-product
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: p-redis-(.*).pivotal
 
   # configurations
   - name: configuration
     type: git
     source:
-      private_key: ((pcf-automation-ssh-key.private_key))
-      uri: ((configuration.uri))
+      private_key: ((pcf-automation-ssh-key_private_key))
+      uri: ((configuration_uri))
       branch: master
 
   - name: variable
     type: git
     source:
-      private_key: ((pcf-automation-ssh-key.private_key))
-      uri: ((variable.uri))
+      private_key: ((pcf-automation-ssh-key_private_key))
+      uri: ((variable_uri))
       branch: master
 
   # triggers used to have jobs do something in a timely manner
