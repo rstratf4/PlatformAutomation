@@ -2,31 +2,31 @@ resources:
   - name: pcf-automation-tasks
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: .*tasks-(.*).zip
 
   - name: pcf-automation-image
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
       endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.pivnet_products))
+      bucket: ((s3_buckets_pivnet_products))
       regexp: .*image-(.*).tgz
 
   - name: installation
     type: s3
     source:
-      access_key_id: ((s3.access_key_id))
-      secret_access_key: ((s3.secret_access_key))
-      region_name: ((s3.region_name))
-      endpoint: ((s3.endpoint))
-      bucket: ((s3.buckets.installation))
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets_installation))
       regexp: installation-((foundation))-(.*).zip
 
   - name: opsman-image
