@@ -82,20 +82,20 @@ jobs:
       params:
         unpack: true
     - get: config
-#  - task: credhub-interpolate
-#    image: platform-automation-image
-#    file: platform-automation-tasks/tasks/credhub-interpolate.yml
-#    params:
-#      CREDHUB_CLIENT: ((credhub-client))
-#      CREDHUB_SECRET: ((credhub-secret))
-#      CREDHUB_SERVER: ((credhub-server))
-#      CREDHUB_CA_CERT: ((credhub-ca.certificate))
-#      PREFIX: '/concourse/((foundation))'
-#      INTERPOLATION_PATH: "((foundation))/download-product-configs"
-#    input_mapping:
-#      files: config
-#    output_mapping:
-#      interpolated-files: config
+  - task: credhub-interpolate
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/credhub-interpolate.yml
+    params:
+      CREDHUB_CLIENT: ((credhub-client))
+      CREDHUB_SECRET: ((credhub-secret))
+      CREDHUB_SERVER: ((credhub-server))
+      CREDHUB_CA_CERT: ((credhub-ca.certificate))
+      PREFIX: '/hotrod'
+      INTERPOLATION_PATH: "((foundation))/download-product-configs"
+    input_mapping:
+      files: config
+    output_mapping:
+      interpolated-files: config
   - task: download-healthwatch-product-and-stemcell
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
