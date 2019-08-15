@@ -1,0 +1,14 @@
+configuration_uri:  #https://github.com location
+pcf-automation-ssh-key_private_key:  | #github ssh private key 
+s3_access_key_id: #AWS access key ID
+s3_bucket: #S3 bucket
+s3_bucket_pivnet_products:   #S3 bucket
+s3_region_name:  #S3 region
+s3_secret_access_key:    #AWS access key
+foundation: #example sandbox, dev, prod, whatever you call your foundation
+opsman_image_s3_versioned_regexp: pcf-vsphere-(.*).ova 
+s3_endpoint: #example https://s3.us-east-2.amazonaws.com
+s3_buckets_installation:  #S3 bucket
+pivnet_token:  " "
+opsman-user: #opsman user that can upload & apply changes
+opsman-user-pass: #opsman user password 
