@@ -1,0 +1,44 @@
+---
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: http://dockerhub.docker.countrypassport.com/pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+- name: stemcells-ubuntu-xenial
+  type: pivnet
+  source:
+    api_token: ((api-token))
+    product_slug: bosh-stemcells-xenial
+    regexp: 
+
+- name: configuration
+  type: git
+  source:
+    repository: no.clue
+    private_key: ((git-private-key))
+
+- name: pcf-automation-image
+  type: s3
+  source:
+    endpoint: internal.s3
+    secret_key: ((s3-seceret-key))
+    api_key: ((s3-api-key))
+
+- name: pcf-automation-tasks
+  type: git
+  source:
+    repository: no.clue/tasks
+    private_key: ((git-private-key))
+
+jobs:
+- name: upload-stemcells
+  plan:
+  - get: stemcells-ubuntu-xenial
+  - get: configuration
+  - get: pcf-automation-image
+  - task: upload-ss-to-opsman
+    config:
+      file: pcf-automation-tasks/tasks/upload-to-opsman.yml
