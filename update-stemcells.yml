@@ -262,7 +262,7 @@ jobs:
         params:
           ENV_FILE: ((foundation))/env/env.yml
 
-  - name: apply-product-changes
+  - name: apply-stemcell-updates
     serial: true
     plan:
       - aggregate:
