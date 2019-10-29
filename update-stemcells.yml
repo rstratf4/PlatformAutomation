@@ -145,3 +145,179 @@ resources:
     source:
       interval: 24h
 
+jobs:
+  - name: upload-stemcells
+    serial: true
+    plan:
+      - aggregate:
+          - get: pcf-automation-image
+            params:
+              unpack: true
+            passed:
+              - install-opsman
+            trigger: true
+          - get: pcf-automation-tasks
+            params:
+              unpack: true
+          - get: pas-stemcell
+            trigger: true
+          - get: apm-stemcell
+            trigger: true
+          - get: spring-cloud-services-stemcell
+            trigger: true
+          - get: event-alerts-stemcell
+            trigger: true
+          - get: pas-windows-stemcell
+            trigger: true
+          - get: healthwatch-stemcell
+            trigger: true
+          - get: mysql-stemcell
+            trigger: true
+          - get: rabbitmq-stemcell
+            trigger: true
+          - get: redis-stemcell
+            trigger: true
+          - get: sso-stemcell
+            trigger: true
+          - get: configuration
+          - get: variable
+#      - task: credhub-interpolate-env
+#        image: pcf-automation-image
+#        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
+#          CREDHUB_CLIENT: ((credhub-client))
+#          CREDHUB_SECRET: ((credhub-secret))
+#          CREDHUB_SERVER: ((credhub-server))
+#          CREDHUB_CA_CERT: ((credhub-ca.certificate))
+#          PREFIX: '/concourse/((foundation))'
+#          INTERPOLATION_PATH: "((foundation))/env"
+#        input_mapping:
+#          files: configuration
+#        output_mapping:
+#          interpolated-files: env-int
+      - task: upload-pas-stemcell
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/upload-stemcell.yml
+        input_mapping:
+          env: env-int
+          stemcell: pas-stemcell
+        params:
+          ENV_FILE: ((foundation))/env/env.yml
+      - task: upload-pas-windows-stemcell
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/upload-stemcell.yml
+        input_mapping:
+#          env: env-int
+          stemcell: pas-windows-stemcell
+        params:
+          ENV_FILE: ((foundation))/env/env.yml
+      - task: upload-healthwatch-stemcell
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/upload-stemcell.yml
+        input_mapping:
+#          env: env-int
+          stemcell: healthwatch-stemcell
+        params:
+          ENV_FILE: ((foundation))/env/env.yml
+      - task: upload-mysql-stemcell
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/upload-stemcell.yml
+        input_mapping:
+#          env: env-int
+          stemcell: mysql-stemcell
+        params:
+          ENV_FILE: ((foundation))/env/env.yml
+      - task: upload-rabbitmq-stemcell
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/upload-stemcell.yml
+        input_mapping:
+#          env: env-int
+          stemcell: rabbitmq-stemcell
+        params:
+          ENV_FILE: ((foundation))/env/env.yml
+      - task: upload-apm-stemcell
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/upload-stemcell.yml
+        input_mapping:
+#          env: env-int
+          stemcell: apm-stemcell
+        params:
+          ENV_FILE: ((foundation))/env/env.yml
+      - task: upload-spring-cloud-services-stemcell
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/upload-stemcell.yml
+        input_mapping:
+#          env: env-int
+          stemcell: spring-cloud-services-stemcell
+        params:
+          ENV_FILE: ((foundation))/env/env.yml
+      - task: upload-event-alerts-stemcell
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/upload-stemcell.yml
+        input_mapping:
+#          env: env-int
+          stemcell: event-alerts-stemcell
+        params:
+          ENV_FILE: ((foundation))/env/env.yml
+      - task: upload-redis-stemcell
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/upload-stemcell.yml
+        input_mapping:
+#          env: env-int
+          stemcell: redis-stemcell
+        params:
+          ENV_FILE: ((foundation))/env/env.yml
+      - task: upload-sso-stemcell
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/upload-stemcell.yml
+        input_mapping:
+#          env: env-int
+          stemcell: sso-stemcell
+        params:
+          ENV_FILE: ((foundation))/env/env.yml
+
+  - name: apply-product-changes
+    serial: true
+    plan:
+      - aggregate:
+          - get: pcf-automation-image
+            params:
+              unpack: true
+            passed:
+              - staged-healthwatch-config
+              - staged-pas-config
+              - staged-mysql-config
+              - staged-pas-windows-config
+              - staged-rabbitmq-config
+              - staged-redis-config
+              - staged-apm-config
+              - staged-spring-cloud-services-config
+              - staged-event-alerts-config
+              - staged-sso-config
+              - staged-mysql-config
+            trigger: true
+          - get: pcf-automation-tasks
+            params:
+              unpack: true
+          - get: configuration
+          - get: variable
+#      - task: credhub-interpolate-env
+#        image: pcf-automation-image
+#        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
+#        params:
+#          CREDHUB_CLIENT: ((credhub-client))
+#          CREDHUB_SECRET: ((credhub-secret))
+#          CREDHUB_SERVER: ((credhub-server))
+#          CREDHUB_CA_CERT: ((credhub-ca.certificate))
+#          PREFIX: '/concourse/((foundation))'
+#          INTERPOLATION_PATH: "((foundation))/env"
+#        input_mapping:
+#          files: configuration
+#        output_mapping:
+#          interpolated-files: env-int
+      - task: apply-product-changes
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/apply-changes.yml
+        input_mapping:
+#          env: env-int
+        params:
+          ENV_FILE: ((foundation))/env/env.yml
