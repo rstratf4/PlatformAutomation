@@ -2,7 +2,7 @@
 pivnet-api-token: ((pivnet_token))
 pivnet-file-glob: "*.pivotal"
 pivnet-product-slug: p-spring-cloud-services
-product-version: 2.0.6
+product-version: 2.0.11
 stemcell-iaas: vsphere
 
 s3-access-key-id: ((s3_access_key_id))
