@@ -134,16 +134,6 @@ resources:
       uri: ((configuration_uri))
       branch: master
 
-  # triggers used to have jobs do something in a timely manner
-  - name: one-time-trigger
-    type: time
-    source:
-      interval: 999999h
-
-  - name: daily-trigger
-    type: time
-    source:
-      interval: 24h
 
 jobs:
   - name: upload-stemcells
@@ -153,9 +143,6 @@ jobs:
           - get: pcf-automation-image
             params:
               unpack: true
-            passed:
-              - install-opsman
-            trigger: true
           - get: pcf-automation-tasks
             params:
               unpack: true
@@ -283,17 +270,7 @@ jobs:
             params:
               unpack: true
             passed:
-              - staged-healthwatch-config
-              - staged-pas-config
-              - staged-mysql-config
-              - staged-pas-windows-config
-              - staged-rabbitmq-config
-              - staged-redis-config
-              - staged-apm-config
-              - staged-spring-cloud-services-config
-              - staged-event-alerts-config
-              - staged-sso-config
-              - staged-mysql-config
+              - upload-stemcells
             trigger: true
           - get: pcf-automation-tasks
             params:
