@@ -20,7 +20,7 @@ resources:
     submodules: all
     depth: 1
 
-- name: pks-product
+- name: splunk-product
   type: s3
   source:
     access_key_id: ((s3_access_key_id))
@@ -28,9 +28,9 @@ resources:
     
     region_name: ((s3_region_name))
     secret_access_key: ((s3_secret_access_key))
-    regexp: pivotal-container-service-(.*).pivotal
+    regexp: splunk-nozzle-(.*).pivotal
 
-- name: pks-stemcell
+- name: splunk-stemcell
   type: s3
   source:
     access_key_id: ((s3_access_key_id))
@@ -38,9 +38,9 @@ resources:
     
     region_name: ((s3_region_name))
     secret_access_key: ((s3_secret_access_key))
-    regexp: pks-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    regexp: splunk-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
-- name: sso-product
+- name: forgerock-product
   type: s3
   source:
     access_key_id: ((s3_access_key_id))
@@ -48,9 +48,9 @@ resources:
     
     region_name: ((s3_region_name))
     secret_access_key: ((s3_secret_access_key))
-    regexp: Pivotal_Single_Sign-On_Service_(.*).pivotal
+    regexp: forgerock-broker-(.*).pivotal
 
-- name: sso-stemcell
+- name: forgerock-stemcell
   type: s3
   source:
     access_key_id: ((s3_access_key_id))
@@ -58,27 +58,7 @@ resources:
     
     region_name: ((s3_region_name))
     secret_access_key: ((s3_secret_access_key))
-    regexp: sso-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
-
-- name: healthwatch-product
-  type: s3
-  source:
-    access_key_id: ((s3_access_key_id))
-    bucket: ((s3_bucket))
-    
-    region_name: ((s3_region_name))
-    secret_access_key: ((s3_secret_access_key))
-    regexp: p-healthwatch-(.*).pivotal
-
-- name: healthwatch-stemcell
-  type: s3
-  source:
-    access_key_id: ((s3_access_key_id))
-    bucket: ((s3_bucket))
-    
-    region_name: ((s3_region_name))
-    secret_access_key: ((s3_secret_access_key))
-    regexp: healthwatch-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    regexp: forgerock-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
 - name: apm-product
   type: s3
@@ -140,7 +120,7 @@ resources:
     secret_access_key: ((s3_secret_access_key))
     regexp: spring-cloud-services-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
-- name: event-alerts-product
+- name: isolation-segment-product
   type: s3
   source:
     access_key_id: ((s3_access_key_id))
@@ -148,9 +128,9 @@ resources:
     region_name: ((s3_region_name))
     
     secret_access_key: ((s3_secret_access_key))
-    regexp: p-event-alerts-(.*).pivotal
+    regexp: p-isolation-segment-(.*).pivotal
 
-- name: event-alerts-stemcell
+- name: isolation-segement-stemcell
   type: s3
   source:
     access_key_id: ((s3_access_key_id))
@@ -158,7 +138,7 @@ resources:
     region_name: ((s3_region_name))
     
     secret_access_key: ((s3_secret_access_key))
-    regexp: event-alerts-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    regexp: iso-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
 - name: rabbitmq-product
   type: s3
@@ -200,16 +180,6 @@ resources:
     secret_access_key: ((s3_secret_access_key))
     regexp: redis-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
-- name: opsman-product
-  type: s3
-  source:
-    access_key_id: ((s3_access_key_id))
-    bucket: ((s3_bucket))
-    
-    region_name: ((s3_region_name))
-    secret_access_key: ((s3_secret_access_key))
-    regexp: ops-manager-vsphere-(.*).ova
-
 - name: pas-product
   type: s3
   source:
@@ -229,16 +199,6 @@ resources:
     region_name: ((s3_region_name))
     secret_access_key: ((s3_secret_access_key))
     regexp: pas-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
-
-- name: pas-windows-product
-  type: s3
-  source:
-    access_key_id: ((s3_access_key_id))
-    bucket: ((s3_bucket))
-    
-    region_name: ((s3_region_name))
-    secret_access_key: ((s3_secret_access_key))
-    regexp: pas-windows-(.*).pivotal
 
 - name: platform-automation-pivnet
   type: pivnet
@@ -268,48 +228,8 @@ resources:
     secret_access_key: ((s3_secret_access_key))
     regexp: platform-automation-image-(.*).tgz
     
-- name: pcloudcache-product
-  type: s3
-  source:
-    access_key_id: ((s3_access_key_id))
-    bucket: ((s3_bucket))
-    region_name: ((s3_region_name))
-    
-    secret_access_key: ((s3_secret_access_key))
-    regexp: p-cloudcache-(.*).pivotal
-
-- name: pcloudcache-stemcell
-  type: s3
-  source:
-    access_key_id: ((s3_access_key_id))
-    bucket: ((s3_bucket))
-    region_name: ((s3_region_name))
-    
-    secret_access_key: ((s3_secret_access_key))
-    regexp: pcloudcache-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
-    
-- name: awsservicebroker-product
-  type: s3
-  source:
-    access_key_id: ((s3_access_key_id))
-    bucket: ((s3_bucket))
-    region_name: ((s3_region_name))
-    
-    secret_access_key: ((s3_secret_access_key))
-    regexp: aws-services-(.*).pivotal
-
-- name: awsservicebroker-stemcell
-  type: s3
-  source:
-    access_key_id: ((s3_access_key_id))
-    bucket: ((s3_bucket))
-    region_name: ((s3_region_name))
-    
-    secret_access_key: ((s3_secret_access_key))
-    regexp: awsservicebroker/bosh-stemcell-(.*)-vsphere.*\.tgz
-
 jobs:
-- name: fetch-pks
+- name: fetch-splunk
   plan:
   - aggregate:
     - get: daily
@@ -335,21 +255,21 @@ jobs:
 #      files: config
 #    output_mapping:
 #      interpolated-files: config
-  - task: download-pks-product-and-stemcell
+  - task: download-splunk-product-and-stemcell
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
-      CONFIG_FILE: download-product-configs/pks.yml
-    output_mapping: {downloaded-stemcell: pks-stemcell}
+      CONFIG_FILE: download-product-configs/splunk.yml
+    output_mapping: {downloaded-stemcell: splunk-stemcell}
   - aggregate:
-    - put: pks-product
+    - put: splunk-product
       params:
         file: downloaded-product/*.pivotal
-    - put: pks-stemcell
+    - put: splunk-stemcell
       params:
-        file: pks-stemcell/*.tgz
+        file: splunk-stemcell/*.tgz
 
-- name: fetch-healthwatch
+- name: fetch-forgerock
   plan:
   - aggregate:
     - get: daily
@@ -375,19 +295,19 @@ jobs:
 #      files: config
 #    output_mapping:
 #      interpolated-files: config
-  - task: download-healthwatch-product-and-stemcell
+  - task: download-forgerock-product-and-stemcell
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
-      CONFIG_FILE: download-product-configs/healthwatch.yml
-    output_mapping: {downloaded-stemcell: healthwatch-stemcell}
+      CONFIG_FILE: download-product-configs/forgerock.yml
+    output_mapping: {downloaded-stemcell: forgerock-stemcell}
   - aggregate:
-    - put: healthwatch-product
+    - put: forgerock-product
       params:
         file: downloaded-product/*.pivotal
-    - put: healthwatch-stemcell
+    - put: forgerock-stemcell
       params:
-        file: healthwatch-stemcell/*.tgz
+        file: forgerock-stemcell/*.tgz
 
 - name: fetch-spring-cloud-services
   plan:
@@ -429,7 +349,7 @@ jobs:
       params:
         file: spring-cloud-services-stemcell/*.tgz
 
-- name: fetch-event-alerts
+- name: fetch-isolation-segment
   plan:
   - aggregate:
     - get: daily
@@ -455,19 +375,19 @@ jobs:
 #      files: config
 #    output_mapping:
 #      interpolated-files: config
-  - task: download-event-alerts-product-and-stemcell
+  - task: download-isolation-segment-product-and-stemcell
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
-      CONFIG_FILE: download-product-configs/event-alerts.yml
-    output_mapping: {downloaded-stemcell: event-alerts-stemcell}
+      CONFIG_FILE: download-product-configs/isoseg.yml
+    output_mapping: {downloaded-stemcell: iso-stemcell}
   - aggregate:
-    - put: event-alerts-product
+    - put: isolation-segment-product
       params:
         file: downloaded-product/*.pivotal
-    - put: event-alerts-stemcell
+    - put: isolation-segment-stemcell
       params:
-        file: event-alerts-stemcell/*.tgz
+        file: iso-stemcell/*.tgz
 
 - name: fetch-apm
   plan:
@@ -508,46 +428,6 @@ jobs:
     - put: apm-stemcell
       params:
         file: apm-stemcell/*.tgz
-
-- name: fetch-sso
-  plan:
-  - aggregate:
-    - get: daily
-      trigger: true
-    - get: platform-automation-image
-      params:
-        unpack: true
-    - get: platform-automation-tasks
-      params:
-        unpack: true
-    - get: config
-#  - task: credhub-interpolate
-#    image: platform-automation-image
-#    file: platform-automation-tasks/tasks/credhub-interpolate.yml
-#    params:
-#      CREDHUB_CLIENT: ((credhub-client))
-#      CREDHUB_SECRET: ((credhub-secret))
-#      CREDHUB_SERVER: ((credhub-server))
-#      CREDHUB_CA_CERT: ((credhub-ca.certificate))
-#      PREFIX: '/concourse/((foundation))'
-#      INTERPOLATION_PATH: "((foundation))/download-product-configs"
-#    input_mapping:
-#      files: config
-#    output_mapping:
-#      interpolated-files: config
-  - task: download-sso-product-and-stemcell
-    image: platform-automation-image
-    file: platform-automation-tasks/tasks/download-product.yml
-    params:
-      CONFIG_FILE: download-product-configs/sso.yml
-    output_mapping: {downloaded-stemcell: sso-stemcell}
-  - aggregate:
-    - put: sso-product
-      params:
-        file: downloaded-product/*.pivotal
-    - put: sso-stemcell
-      params:
-        file: sso-stemcell/*.tgz
 
 - name: fetch-rabbitmq
   plan:
@@ -669,42 +549,6 @@ jobs:
       params:
         file: redis-stemcell/*.tgz
 
-- name: fetch-opsman
-  plan:
-  - aggregate:
-    - get: daily
-      trigger: true
-    - get: platform-automation-image
-      params:
-        unpack: true
-    - get: platform-automation-tasks
-      params:
-        unpack: true
-    - get: config
-#  - task: credhub-interpolate
-#    image: platform-automation-image
-#    file: platform-automation-tasks/tasks/credhub-interpolate.yml
-#    params:
-#      CREDHUB_CLIENT: ((credhub-client))
-#      CREDHUB_SECRET: ((credhub-secret))
-#      CREDHUB_SERVER: ((credhub-server))
-#      CREDHUB_CA_CERT: ((credhub-ca.certificate))
-#      PREFIX: '/concourse/((foundation))'
-#      INTERPOLATION_PATH: "((foundation))/download-product-configs"
-#    input_mapping:
-#      files: config
-#    output_mapping:
-#      interpolated-files: config
-  - task: download-opsman-image
-    image: platform-automation-image
-    file: platform-automation-tasks/tasks/download-product.yml
-    params:
-      CONFIG_FILE: download-product-configs/opsman.yml
-  - aggregate:
-    - put: opsman-product
-      params:
-        file: downloaded-product/*
-
 - name: fetch-pas
   plan:
   - aggregate:
@@ -745,42 +589,6 @@ jobs:
       params:
         file: pas-stemcell/*.tgz
 
-- name: fetch-pas-windows
-  plan:
-  - aggregate:
-    - get: daily
-      trigger: true
-    - get: platform-automation-image
-      params:
-        unpack: true
-    - get: platform-automation-tasks
-      params:
-        unpack: true
-    - get: config
-#  - task: credhub-interpolate
-#    image: platform-automation-image
-#    file: platform-automation-tasks/tasks/credhub-interpolate.yml
-#    params:
-#      CREDHUB_CLIENT: ((credhub-client))
-#      CREDHUB_SECRET: ((credhub-secret))
-#      CREDHUB_SERVER: ((credhub-server))
-#      CREDHUB_CA_CERT: ((credhub-ca.certificate))
-#      PREFIX: '/concourse/((foundation))'
-#      INTERPOLATION_PATH: "((foundation))/download-product-configs"
-#    input_mapping:
-#      files: config
-#    output_mapping:
-#      interpolated-files: config
-  - task: download-pas-windows-product
-    image: platform-automation-image
-    file: platform-automation-tasks/tasks/download-product.yml
-    params:
-      CONFIG_FILE: download-product-configs/pas-windows.yml
-  - aggregate:
-    - put: pas-windows-product
-      params:
-        file: downloaded-product/*.pivotal
-
 - name: fetch-platform-automation
   # We use the pivnet resource to bootstrap the pipeline,
   # and because this product is part of the pipeline, not the foundation
@@ -794,83 +602,3 @@ jobs:
     - put: platform-automation-image
       params:
         file: platform-automation-pivnet/*image*.tgz
-        
-- name: fetch-awsservicebroker
-  plan:
-  - aggregate:
-    - get: daily
-      trigger: true
-    - get: platform-automation-image
-      params:
-        unpack: true
-    - get: platform-automation-tasks
-      params:
-        unpack: true
-    - get: config
-#  - task: credhub-interpolate
-#    image: platform-automation-image
-#    file: platform-automation-tasks/tasks/credhub-interpolate.yml
-#    params:
-#      CREDHUB_CLIENT: ((credhub-client))
-#      CREDHUB_SECRET: ((credhub-secret))
-#      CREDHUB_SERVER: ((credhub-server))
-#      CREDHUB_CA_CERT: ((credhub-ca.certificate))
-#      PREFIX: '/concourse/((foundation))'
-#      INTERPOLATION_PATH: "((foundation))/download-product-configs"
-#    input_mapping:
-#      files: config
-#    output_mapping:
-#      interpolated-files: config
-  - task: download-awsservicebroker-product-and-stemcell
-    image: platform-automation-image
-    file: platform-automation-tasks/tasks/download-product.yml
-    params:
-      CONFIG_FILE: download-product-configs/awsservicebroker.yml
-    output_mapping: {downloaded-stemcell: awsservicebroker-stemcell}
-  - aggregate:
-    - put: awsservicebroker-product
-      params:
-        file: downloaded-product/*.pivotal
-    - put: awsservicebroker-stemcell
-      params:
-        file: awsservicebroker-stemcell/*.tgz
-
-- name: fetch-pcloudcache
-  plan:
-  - aggregate:
-    - get: daily
-      trigger: true
-    - get: platform-automation-image
-      params:
-        unpack: true
-    - get: platform-automation-tasks
-      params:
-        unpack: true
-    - get: config
-#  - task: credhub-interpolate
-#    image: platform-automation-image
-#    file: platform-automation-tasks/tasks/credhub-interpolate.yml
-#    params:
-#      CREDHUB_CLIENT: ((credhub-client))
-#      CREDHUB_SECRET: ((credhub-secret))
-#      CREDHUB_SERVER: ((credhub-server))
-#      CREDHUB_CA_CERT: ((credhub-ca.certificate))
-#      PREFIX: '/concourse/((foundation))'
-#      INTERPOLATION_PATH: "((foundation))/download-product-configs"
-#    input_mapping:
-#      files: config
-#    output_mapping:
-#      interpolated-files: config
-  - task: download-pcloudcache-product-and-stemcell
-    image: platform-automation-image
-    file: platform-automation-tasks/tasks/download-product.yml
-    params:
-      CONFIG_FILE: download-product-configs/pcloudcache.yml
-    output_mapping: {downloaded-stemcell: pcloudcache-stemcell}
-  - aggregate:
-    - put: pcloudcache-product
-      params:
-        file: downloaded-product/*.pivotal
-    - put: pcloudcache-stemcell
-      params:
-        file: pcloudcache-stemcell/*.tgz
