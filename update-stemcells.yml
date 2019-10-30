@@ -49,7 +49,7 @@ resources:
       bucket: ((s3_buckets_pivnet_products))
       regexp: spring-cloud-services-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
       
-  - name: event-alerts-stemcell
+  - name: isolation-segment-stemcell
     type: s3
     source:
       access_key_id: ((s3_access_key_id))
@@ -57,9 +57,9 @@ resources:
       region_name: ((s3_region_name))
       endpoint: ((s3_endpoint))
       bucket: ((s3_buckets_pivnet_products))
-      regexp: event-alerts-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+      regexp: isolation-segment-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
-  - name: pas-windows-stemcell
+  - name: forgerock-stemcell
     type: s3
     source:
       access_key_id: ((s3_access_key_id))
@@ -67,9 +67,9 @@ resources:
       region_name: ((s3_region_name))
       endpoint: ((s3_endpoint))
       secret_access_key: ((s3_secret_access_key))
-      regexp: pas-windows-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+      regexp: forgerock-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
-  - name: healthwatch-stemcell
+  - name: splunk-stemcell
     type: s3
     source:
       access_key_id: ((s3_access_key_id))
@@ -77,17 +77,7 @@ resources:
       region_name: ((s3_region_name))
       endpoint: ((s3_endpoint))
       bucket: ((s3_buckets_pivnet_products))
-      regexp: healthwatch-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
-
-  - name: sso-stemcell
-    type: s3
-    source:
-      access_key_id: ((s3_access_key_id))
-      secret_access_key: ((s3_secret_access_key))
-      region_name: ((s3_region_name))
-      endpoint: ((s3_endpoint))
-      bucket: ((s3_buckets_pivnet_products))
-      regexp: sso-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+      regexp: splunk-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
   - name: rabbitmq-stemcell
     type: s3
@@ -152,19 +142,17 @@ jobs:
             trigger: true
           - get: spring-cloud-services-stemcell
             trigger: true
-          - get: event-alerts-stemcell
+          - get: isolation-segment-stemcell
             trigger: true
-          - get: pas-windows-stemcell
+          - get: forgerock-stemcell
             trigger: true
-          - get: healthwatch-stemcell
+          - get: splunk-stemcell
             trigger: true
           - get: mysql-stemcell
             trigger: true
           - get: rabbitmq-stemcell
             trigger: true
           - get: redis-stemcell
-            trigger: true
-          - get: sso-stemcell
             trigger: true
           - get: configuration
           - get: variable
@@ -189,20 +177,20 @@ jobs:
           stemcell: pas-stemcell
         params:
           ENV_FILE: ((foundation))/env/env.yml
-      - task: upload-pas-windows-stemcell
+      - task: upload-isolation-segment-stemcell
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-stemcell.yml
         input_mapping:
 #          env: env-int
-          stemcell: pas-windows-stemcell
+          stemcell: isolation-segment-stemcell
         params:
           ENV_FILE: ((foundation))/env/env.yml
-      - task: upload-healthwatch-stemcell
+      - task: upload-forgerock-stemcell
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-stemcell.yml
         input_mapping:
 #          env: env-int
-          stemcell: healthwatch-stemcell
+          stemcell: forgerock-stemcell
         params:
           ENV_FILE: ((foundation))/env/env.yml
       - task: upload-mysql-stemcell
@@ -237,12 +225,12 @@ jobs:
           stemcell: spring-cloud-services-stemcell
         params:
           ENV_FILE: ((foundation))/env/env.yml
-      - task: upload-event-alerts-stemcell
+      - task: upload-splunk-stemcell
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-stemcell.yml
         input_mapping:
 #          env: env-int
-          stemcell: event-alerts-stemcell
+          stemcell: splunk-stemcell
         params:
           ENV_FILE: ((foundation))/env/env.yml
       - task: upload-redis-stemcell
@@ -251,14 +239,6 @@ jobs:
         input_mapping:
 #          env: env-int
           stemcell: redis-stemcell
-        params:
-          ENV_FILE: ((foundation))/env/env.yml
-      - task: upload-sso-stemcell
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/upload-stemcell.yml
-        input_mapping:
-#          env: env-int
-          stemcell: sso-stemcell
         params:
           ENV_FILE: ((foundation))/env/env.yml
 

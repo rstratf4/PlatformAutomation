@@ -79,7 +79,7 @@ resources:
       bucket: ((s3_buckets_pivnet_products))
       regexp: p-spring-cloud-services-(.*).pivotal
 
-  - name: event-alerts-stemcell
+  - name: isolation-segment-stemcell
     type: s3
     source:
       access_key_id: ((s3_access_key_id))
@@ -87,9 +87,9 @@ resources:
       region_name: ((s3_region_name))
       endpoint: ((s3_endpoint))
       bucket: ((s3_buckets_pivnet_products))
-      regexp: event-alerts-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+      regexp: isolation-segment-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
-  - name: event-alerts-product
+  - name: isolation-segment-product
     type: s3
     source:
       access_key_id: ((s3_access_key_id))
@@ -97,9 +97,9 @@ resources:
       region_name: ((s3_region_name))
       endpoint: ((s3_endpoint))
       bucket: ((s3_buckets_pivnet_products))
-      regexp: p-event-alerts-(.*).pivotal
+      regexp: isolation-segment-(.*).pivotal
 
-  - name: pas-windows-product
+  - name: forgerock-product
     type: s3
     source:
       access_key_id: ((s3_access_key_id))
@@ -107,9 +107,9 @@ resources:
       region_name: ((s3_region_name))
       endpoint: ((s3_endpoint))
       secret_access_key: ((s3_secret_access_key))
-      regexp: pas-windows-(.*).pivotal
+      regexp: forgerock-(.*).pivotal
 
-  - name: pas-windows-stemcell
+  - name: forgerock-stemcell
     type: s3
     source:
       access_key_id: ((s3_access_key_id))
@@ -117,9 +117,9 @@ resources:
       region_name: ((s3_region_name))
       endpoint: ((s3_endpoint))
       secret_access_key: ((s3_secret_access_key))
-      regexp: pas-windows-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+      regexp: forgerock-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
-  - name: healthwatch-stemcell
+  - name: splunk-stemcell
     type: s3
     source:
       access_key_id: ((s3_access_key_id))
@@ -127,9 +127,9 @@ resources:
       region_name: ((s3_region_name))
       endpoint: ((s3_endpoint))
       bucket: ((s3_buckets_pivnet_products))
-      regexp: healthwatch-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+      regexp: splunk-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
-  - name: healthwatch-product
+  - name: splunk-product
     type: s3
     source:
       access_key_id: ((s3_access_key_id))
@@ -137,27 +137,7 @@ resources:
       region_name: ((s3_region_name))
       endpoint: ((s3_endpoint))
       bucket: ((s3_buckets_pivnet_products))
-      regexp: p-healthwatch-(.*).pivotal
-
-  - name: sso-stemcell
-    type: s3
-    source:
-      access_key_id: ((s3_access_key_id))
-      secret_access_key: ((s3_secret_access_key))
-      region_name: ((s3_region_name))
-      endpoint: ((s3_endpoint))
-      bucket: ((s3_buckets_pivnet_products))
-      regexp: sso-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
-
-  - name: sso-product
-    type: s3
-    source:
-      access_key_id: ((s3_access_key_id))
-      secret_access_key: ((s3_secret_access_key))
-      region_name: ((s3_region_name))
-      endpoint: ((s3_endpoint))
-      bucket: ((s3_buckets_pivnet_products))
-      regexp: Pivotal_Single_Sign-On_Service_(.*).pivotal
+      regexp: splunk-nozzle-(.*).pivotal
 
   - name: rabbitmq-stemcell
     type: s3
@@ -178,7 +158,6 @@ resources:
       endpoint: ((s3_endpoint))
       bucket: ((s3_buckets_pivnet_products))
       regexp: p-rabbitmq-(.*).pivotal
-
 
   - name: mysql-stemcell
     type: s3
