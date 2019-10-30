@@ -228,26 +228,26 @@ jobs:
           - get: pas-product
           - get: configuration
           - get: variable
-#      - task: credhub-interpolate-env
-#        image: pcf-automation-image
-#        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
-#        params:
-#          CREDHUB_CLIENT: ((credhub-client))
-#          CREDHUB_SECRET: ((credhub-secret))
-#          CREDHUB_SERVER: ((credhub-server))
-#          CREDHUB_CA_CERT: ((credhub-ca.certificate))
-#          PREFIX: '/concourse/((foundation))'
-#          INTERPOLATION_PATH: "((foundation))/env"
-#        input_mapping:
-#          files: configuration
-#        output_mapping:
-#          interpolated-files: env-int
+      - task: credhub-interpolate-env
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
+        params:
+          CREDHUB_CLIENT: ((credhub-client))
+          CREDHUB_SECRET: ((credhub-secret))
+          CREDHUB_SERVER: ((credhub-server))
+          CREDHUB_CA_CERT: ((credhub-ca.certificate))
+          PREFIX: '/concourse/((foundation))'
+          INTERPOLATION_PATH: "((foundation))/env"
+        input_mapping:
+          files: configuration
+        output_mapping:
+          interpolated-files: env-int
       - task: upload-product
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-product.yml
         input_mapping:
           product: pas-product
-#          env: env-int
+          env: env-int
         params:
           ENV_FILE: ((foundation))/env/env.yml
       - task: stage-product
@@ -255,25 +255,25 @@ jobs:
         file: pcf-automation-tasks/tasks/stage-product.yml
         input_mapping:
           product: pas-product
-#          env: env-int
+          env: env-int
         params:
           ENV_FILE: ((foundation))/env/env.yml
 
-  - name: configure-pas
-    serial: true
-    plan:
-      - aggregate:
-          - get: pcf-automation-image
-            params:
-              unpack: true
-            passed:
-              - upload-and-stage-pas
-            trigger: true
-          - get: pcf-automation-tasks
-            params:
-              unpack: true
-          - get: configuration
-          - get: variable
+#  - name: configure-pas
+#    serial: true
+#    plan:
+#      - aggregate:
+#          - get: pcf-automation-image
+#            params:
+#              unpack: true
+#            passed:
+#              - upload-and-stage-pas
+#            trigger: true
+#          - get: pcf-automation-tasks
+#            params:
+#              unpack: true
+#          - get: configuration
+#          - get: variable
 #      - task: credhub-interpolate-vars
 #        image: pcf-automation-image
 #        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
@@ -302,63 +302,19 @@ jobs:
 #          files: configuration
 #        output_mapping:
 #          interpolated-files: env-int
-      - task: configure-pas
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/configure-product.yml
-        input_mapping:
-          config: configuration
+#      - task: configure-pas
+#        image: pcf-automation-image
+#        file: pcf-automation-tasks/tasks/configure-product.yml
+#        input_mapping:
+#          config: configuration
 #          env: env-int
 #          vars: vars-int
-        params:
-          CONFIG_FILE: ((foundation))/config/cf.yml
-          VARS_FILES: vars/((foundation))/vars/cf-vars.yml
-          ENV_FILE: ((foundation))/env/env.yml
-
-  - name: upload-and-stage-pas-windows
-    serial: true
-    plan:
-      - aggregate:
-          - get: pcf-automation-image
-            params:
-              unpack: true
-          - get: pcf-automation-tasks
-            params:
-              unpack: true
-          - get: pas-windows-product
-          - get: configuration
-          - get: variable
-#      - task: credhub-interpolate-env
-#        image: pcf-automation-image
-#        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
 #        params:
-#          CREDHUB_CLIENT: ((credhub-client))
-#          CREDHUB_SECRET: ((credhub-secret))
-#          CREDHUB_SERVER: ((credhub-server))
-#          CREDHUB_CA_CERT: ((credhub-ca.certificate))
-#          PREFIX: '/concourse/((foundation))'
-#          INTERPOLATION_PATH: "((foundation))/env"
-#        input_mapping:
-#          files: configuration
-#        output_mapping:
-#          interpolated-files: env-int
-      - task: upload-product
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/upload-product.yml
-        input_mapping:
-          product: pas-windows-product
-#          env: env-int
-        params:
-          ENV_FILE: ((foundation))/env/env.yml
-      - task: stage-product
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/stage-product.yml
-        input_mapping:
-          product: pas-windows-product
-#          env: env-int
-        params:
-          ENV_FILE: ((foundation))/env/env.yml
+#          CONFIG_FILE: ((foundation))/config/cf.yml
+#          VARS_FILES: vars/((foundation))/vars/cf-vars.yml
+#          ENV_FILE: ((foundation))/env/env.yml
 
-  - name: upload-and-stage-sso
+  - name: upload-and-stage-isolation-segment
     serial: true
     plan:
       - aggregate:
@@ -371,90 +327,35 @@ jobs:
           - get: sso-product
           - get: configuration
           - get: variable
-#      - task: credhub-interpolate-env
-#        image: pcf-automation-image
-#        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
-#        params:
-#          CREDHUB_CLIENT: ((credhub-client))
-#          CREDHUB_SECRET: ((credhub-secret))
-#          CREDHUB_SERVER: ((credhub-server))
-#          CREDHUB_CA_CERT: ((credhub-ca.certificate))
-#          PREFIX: '/concourse/((foundation))'
-#          INTERPOLATION_PATH: "((foundation))/env"
-#        input_mapping:
-#          files: configuration
-#        output_mapping:
-#          interpolated-files: env-int
+      - task: credhub-interpolate-env
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
+        params:
+          CREDHUB_CLIENT: ((credhub-client))
+          CREDHUB_SECRET: ((credhub-secret))
+          CREDHUB_SERVER: ((credhub-server))
+          CREDHUB_CA_CERT: ((credhub-ca.certificate))
+          PREFIX: '/concourse/((foundation))'
+          INTERPOLATION_PATH: "((foundation))/env"
+        input_mapping:
+          files: configuration
+        output_mapping:
+          interpolated-files: env-int
       - task: upload-product
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-product.yml
         input_mapping:
-          product: sso-product
-#          env: env-int
+          product: isolation-segment-product
+          env: env-int
         params:
           ENV_FILE: ((foundation))/env/env.yml
       - task: stage-product
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/stage-product.yml
         input_mapping:
-          product: sso-product
-#          env: env-int
+          product: isolation-segment-product
+          env: env-int
         params:
-          ENV_FILE: ((foundation))/env/env.yml
-
-  - name: configure-pas-windows
-    serial: true
-    plan:
-      - aggregate:
-          - get: pcf-automation-image
-            params:
-              unpack: true
-            passed:
-              - upload-and-stage-pas-windows
-            trigger: true
-          - get: pcf-automation-tasks
-            params:
-              unpack: true
-          - get: configuration
-          - get: variable
-#      - task: credhub-interpolate-vars
-#        image: pcf-automation-image
-#        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
-#        params:
-#          CREDHUB_CLIENT: ((credhub-client))
-#          CREDHUB_SECRET: ((credhub-secret))
-#          CREDHUB_SERVER: ((credhub-server))
-#          CREDHUB_CA_CERT: ((credhub-ca.certificate))
-#          PREFIX: '/concourse/((foundation))'
-#          INTERPOLATION_PATH: "((foundation))/vars"
-#        input_mapping:
-#          files: configuration
-#        output_mapping:
-#          interpolated-files: vars-int
-#      - task: credhub-interpolate-env
-#        image: pcf-automation-image
-#        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
-#        params:
-#          CREDHUB_CLIENT: ((credhub-client))
-#          CREDHUB_SECRET: ((credhub-secret))
-#          CREDHUB_SERVER: ((credhub-server))
-#          CREDHUB_CA_CERT: ((credhub-ca.certificate))
-#          PREFIX: '/concourse/((foundation))'
-#          INTERPOLATION_PATH: "((foundation))/env"
-#        input_mapping:
-#          files: configuration
-#        output_mapping:
-#          interpolated-files: env-int
-      - task: configure-pas-windows
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/configure-product.yml
-        input_mapping:
-          config: configuration
-#          env: env-int
-#          vars: vars-int
-        params:
-          CONFIG_FILE: ((foundation))/config/pas-windows.yml
-          VARS_FILES: vars/((foundation))/vars/pas-windows-vars.yml
           ENV_FILE: ((foundation))/env/env.yml
 
   - name: upload-stemcells
@@ -473,11 +374,11 @@ jobs:
             trigger: true
           - get: spring-cloud-services-stemcell
             trigger: true
-          - get: event-alerts-stemcell
+          - get: isolation-segment-stemcell
             trigger: true
-          - get: pas-windows-stemcell
+          - get: forgerock-stemcell
             trigger: true
-          - get: healthwatch-stemcell
+          - get: splunk-stemcell
             trigger: true
           - get: mysql-stemcell
             trigger: true
@@ -485,23 +386,21 @@ jobs:
             trigger: true
           - get: redis-stemcell
             trigger: true
-          - get: sso-stemcell
-            trigger: true
           - get: configuration
           - get: variable
-#      - task: credhub-interpolate-env
-#        image: pcf-automation-image
-#        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
-#          CREDHUB_CLIENT: ((credhub-client))
-#          CREDHUB_SECRET: ((credhub-secret))
-#          CREDHUB_SERVER: ((credhub-server))
-#          CREDHUB_CA_CERT: ((credhub-ca.certificate))
-#          PREFIX: '/concourse/((foundation))'
-#          INTERPOLATION_PATH: "((foundation))/env"
-#        input_mapping:
-#          files: configuration
-#        output_mapping:
-#          interpolated-files: env-int
+      - task: credhub-interpolate-env
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
+          CREDHUB_CLIENT: ((credhub-client))
+          CREDHUB_SECRET: ((credhub-secret))
+          CREDHUB_SERVER: ((credhub-server))
+          CREDHUB_CA_CERT: ((credhub-ca.certificate))
+          PREFIX: '/concourse/((foundation))'
+          INTERPOLATION_PATH: "((foundation))/env"
+        input_mapping:
+          files: configuration
+        output_mapping:
+          interpolated-files: env-int
       - task: upload-pas-stemcell
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-stemcell.yml
@@ -510,27 +409,27 @@ jobs:
           stemcell: pas-stemcell
         params:
           ENV_FILE: ((foundation))/env/env.yml
-      - task: upload-pas-windows-stemcell
+      - task: upload-isolation-segment-stemcell
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-stemcell.yml
         input_mapping:
-#          env: env-int
-          stemcell: pas-windows-stemcell
+          env: env-int
+          stemcell: isolation-segment-stemcell
         params:
           ENV_FILE: ((foundation))/env/env.yml
-      - task: upload-healthwatch-stemcell
+      - task: upload-forgerock-stemcell
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-stemcell.yml
         input_mapping:
-#          env: env-int
-          stemcell: healthwatch-stemcell
+          env: env-int
+          stemcell: forgerock-stemcell
         params:
           ENV_FILE: ((foundation))/env/env.yml
       - task: upload-mysql-stemcell
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-stemcell.yml
         input_mapping:
-#          env: env-int
+          env: env-int
           stemcell: mysql-stemcell
         params:
           ENV_FILE: ((foundation))/env/env.yml
@@ -538,7 +437,7 @@ jobs:
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-stemcell.yml
         input_mapping:
-#          env: env-int
+          env: env-int
           stemcell: rabbitmq-stemcell
         params:
           ENV_FILE: ((foundation))/env/env.yml
@@ -546,7 +445,7 @@ jobs:
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-stemcell.yml
         input_mapping:
-#          env: env-int
+          env: env-int
           stemcell: apm-stemcell
         params:
           ENV_FILE: ((foundation))/env/env.yml
@@ -554,32 +453,26 @@ jobs:
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-stemcell.yml
         input_mapping:
-#          env: env-int
+          env: env-int
           stemcell: spring-cloud-services-stemcell
         params:
           ENV_FILE: ((foundation))/env/env.yml
-      - task: upload-event-alerts-stemcell
+      - task: upload-splunk-stemcell
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-stemcell.yml
         input_mapping:
-#          env: env-int
-          stemcell: event-alerts-stemcell
+          env: env-int
+          stemcell: splunk-stemcell
         params:
           ENV_FILE: ((foundation))/env/env.yml
       - task: upload-redis-stemcell
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-stemcell.yml
         input_mapping:
-#          env: env-int
+          env: env-int
           stemcell: redis-stemcell
         params:
           ENV_FILE: ((foundation))/env/env.yml
-      - task: upload-sso-stemcell
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/upload-stemcell.yml
-        input_mapping:
-#          env: env-int
-          stemcell: sso-stemcell
         params:
           ENV_FILE: ((foundation))/env/env.yml
 
@@ -597,24 +490,24 @@ jobs:
           - get: mysql-product
           - get: configuration
           - get: variable
-#      - task: credhub-interpolate-env
-#        image: pcf-automation-image
-#        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
-#        params:
-#          CREDHUB_CLIENT: ((credhub-client))
-#          CREDHUB_SERVER: ((credhub-server))
-#        PREFIX: '/concourse/((foundation))'
-#          INTERPOLATION_PATH: "((foundation))/env"
-#        input_mapping:
-#          files: configuration
-#        output_mapping:
-#          interpolated-files: env-int
+      - task: credhub-interpolate-env
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
+        params:
+          CREDHUB_CLIENT: ((credhub-client))
+          CREDHUB_SERVER: ((credhub-server))
+        PREFIX: '/concourse/((foundation))'
+          INTERPOLATION_PATH: "((foundation))/env"
+        input_mapping:
+          files: configuration
+        output_mapping:
+          interpolated-files: env-int
       - task: upload-and-stage-product
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-and-stage-product.yml
         input_mapping:
           product: mysql-product
-#          env: env-int
+          env: env-int
         params:
           ENV_FILE: ((foundation))/env/env.yml
 
@@ -631,25 +524,25 @@ jobs:
           - get: apm-product
           - get: configuration
           - get: variable
-#      - task: credhub-interpolate-env
-#        image: pcf-automation-image
-#        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
-#        params:
-#          CREDHUB_CLIENT: ((credhub-client))
-#          CREDHUB_SECRET: ((credhub-secret))
-#          CREDHUB_SERVER: ((credhub-server))
-#          CREDHUB_CA_CERT: ((credhub-ca.certificate))
-#          PREFIX: '/concourse/((foundation))'
-#        input_mapping:
-#          files: configuration
-#        output_mapping:
-#          interpolated-files: env-int
+      - task: credhub-interpolate-env
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
+        params:
+          CREDHUB_CLIENT: ((credhub-client))
+          CREDHUB_SECRET: ((credhub-secret))
+          CREDHUB_SERVER: ((credhub-server))
+          CREDHUB_CA_CERT: ((credhub-ca.certificate))
+          PREFIX: '/concourse/((foundation))'
+        input_mapping:
+          files: configuration
+        output_mapping:
+          interpolated-files: env-int
       - task: upload-and-stage-product
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-and-stage-product.yml
         input_mapping:
           product: apm-product
-#          env: env-int
+          env: env-int
         params:
           ENV_FILE: ((foundation))/env/env.yml
 
@@ -666,30 +559,30 @@ jobs:
           - get: spring-cloud-services-product
           - get: configuration
           - get: variable
-#      - task: credhub-interpolate-env
-#        image: pcf-automation-image
-#        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
-#        params:
-#          CREDHUB_CLIENT: ((credhub-client))
-#          CREDHUB_SECRET: ((credhub-secret))
-#          CREDHUB_SERVER: ((credhub-server))
-#          CREDHUB_CA_CERT: ((credhub-ca.certificate))
-#          PREFIX: '/concourse/((foundation))'
-#          INTERPOLATION_PATH: "((foundation))/env"
-#        input_mapping:
-#          files: configuration
-#        output_mapping:
-#          interpolated-files: env-int
+      - task: credhub-interpolate-env
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
+        params:
+          CREDHUB_CLIENT: ((credhub-client))
+          CREDHUB_SECRET: ((credhub-secret))
+          CREDHUB_SERVER: ((credhub-server))
+          CREDHUB_CA_CERT: ((credhub-ca.certificate))
+          PREFIX: '/concourse/((foundation))'
+          INTERPOLATION_PATH: "((foundation))/env"
+        input_mapping:
+          files: configuration
+        output_mapping:
+          interpolated-files: env-int
       - task: upload-and-stage-product
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-and-stage-product.yml
         input_mapping:
           product: spring-cloud-services-product
-#          env: env-int
+          env: env-int
         params:
           ENV_FILE: ((foundation))/env/env.yml
 
-  - name: upload-and-stage-event-alerts
+  - name: upload-and-stage-forgerock
     serial: true
     plan:
       - aggregate:
@@ -699,29 +592,29 @@ jobs:
           - get: pcf-automation-tasks
             params:
               unpack: true
-          - get: event-alerts-product
+          - get: forgerock-product
           - get: configuration
           - get: variable
-#      - task: credhub-interpolate-env
-#        image: pcf-automation-image
-#        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
-#        params:
-#          CREDHUB_CLIENT: ((credhub-client))
-#          CREDHUB_SECRET: ((credhub-secret))
-#          CREDHUB_SERVER: ((credhub-server))
-#          CREDHUB_CA_CERT: ((credhub-ca.certificate))
-#          PREFIX: '/concourse/((foundation))'
-#          INTERPOLATION_PATH: "((foundation))/env"
-#        input_mapping:
-#          files: configuration
-#        output_mapping:
-#          interpolated-files: env-int
+      - task: credhub-interpolate-env
+        image: pcf-automation-image
+        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
+        params:
+          CREDHUB_CLIENT: ((credhub-client))
+          CREDHUB_SECRET: ((credhub-secret))
+          CREDHUB_SERVER: ((credhub-server))
+          CREDHUB_CA_CERT: ((credhub-ca.certificate))
+          PREFIX: '/concourse/((foundation))'
+          INTERPOLATION_PATH: "((foundation))/env"
+        input_mapping:
+          files: configuration
+        output_mapping:
+          interpolated-files: env-int
       - task: upload-and-stage-product
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-and-stage-product.yml
         input_mapping:
-          product: event-alerts-product
-#          env: env-int
+          product: forgerock-product
+          env: env-int
         params:
           ENV_FILE: ((foundation))/env/env.yml
 
