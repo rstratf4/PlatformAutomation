@@ -6,7 +6,7 @@ resources:
       secret_access_key: ((s3_secret_access_key))
       region_name: ((s3_region_name))
       endpoint: ((s3_endpoint))
-      bucket: ((s3_buckets_pivnet_products))
+      bucket: ((s3_buckets))
       regexp: .*tasks-(.*).zip
 
   - name: pcf-automation-image
@@ -16,59 +16,9 @@ resources:
       secret_access_key: ((s3_secret_access_key))
       region_name: ((s3_region_name))
       endpoint: ((s3_endpoint))
-      bucket: ((s3_buckets_pivnet_products))
+      bucket: ((s3_buckets))
       regexp: .*image-(.*).tgz
       
-  - name: pas-stemcell
-    type: s3
-    source:
-      access_key_id: ((s3_access_key_id))
-      secret_access_key: ((s3_secret_access_key))
-      region_name: ((s3_region_name))
-      endpoint: ((s3_endpoint))
-      bucket: ((s3_buckets_pivnet_products))
-      regexp: pas-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
-  
-  - name: apm-stemcell
-    type: s3
-    source:
-      access_key_id: ((s3_access_key_id))
-      secret_access_key: ((s3_secret_access_key))
-      region_name: ((s3_region_name))
-      endpoint: ((s3_endpoint))
-      bucket: ((s3_buckets_pivnet_products))
-      regexp: apm-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
-      
-  - name: spring-cloud-services-stemcell
-    type: s3
-    source:
-      access_key_id: ((s3_access_key_id))
-      secret_access_key: ((s3_secret_access_key))
-      region_name: ((s3_region_name))
-      endpoint: ((s3_endpoint))
-      bucket: ((s3_buckets_pivnet_products))
-      regexp: spring-cloud-services-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
-      
-  - name: isolation-segment-stemcell
-    type: s3
-    source:
-      access_key_id: ((s3_access_key_id))
-      secret_access_key: ((s3_secret_access_key))
-      region_name: ((s3_region_name))
-      endpoint: ((s3_endpoint))
-      bucket: ((s3_buckets_pivnet_products))
-      regexp: isolation-segment-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
-
-  - name: forgerock-stemcell
-    type: s3
-    source:
-      access_key_id: ((s3_access_key_id))
-      bucket: ((s3_buckets_pivnet_products))
-      region_name: ((s3_region_name))
-      endpoint: ((s3_endpoint))
-      secret_access_key: ((s3_secret_access_key))
-      regexp: forgerock-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
-
   - name: splunk-stemcell
     type: s3
     source:
@@ -76,54 +26,8 @@ resources:
       secret_access_key: ((s3_secret_access_key))
       region_name: ((s3_region_name))
       endpoint: ((s3_endpoint))
-      bucket: ((s3_buckets_pivnet_products))
-      regexp: splunk-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
-
-  - name: rabbitmq-stemcell
-    type: s3
-    source:
-      access_key_id: ((s3_access_key_id))
-      secret_access_key: ((s3_secret_access_key))
-      region_name: ((s3_region_name))
-      endpoint: ((s3_endpoint))
-      bucket: ((s3_buckets_pivnet_products))
-      regexp: rabbitmq-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
-
-  - name: mysql-stemcell
-    type: s3
-    source:
-      access_key_id: ((s3_access_key_id))
-      secret_access_key: ((s3_secret_access_key))
-      region_name: ((s3_region_name))
-      endpoint: ((s3_endpoint))
-      bucket: ((s3_buckets_pivnet_products))
-      regexp: mysql-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
-
-  - name: redis-stemcell
-    type: s3
-    source:
-      access_key_id: ((s3_access_key_id))
-      secret_access_key: ((s3_secret_access_key))
-      region_name: ((s3_region_name))
-      endpoint: ((s3_endpoint))
-      bucket: ((s3_buckets_pivnet_products))
-      regexp: redis-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
-
-  # configurations
-  - name: configuration
-    type: git
-    source:
-      private_key: ((pcf-automation-ssh-key_private_key))
-      uri: ((configuration_uri))
-      branch: master
-
-  - name: variable
-    type: git
-    source:
-      private_key: ((pcf-automation-ssh-key_private_key))
-      uri: ((configuration_uri))
-      branch: master
-
+      bucket: ((s3_buckets))
+      regexp: bosh-stemcell-(97.*)-vsphere.*\.tgz
 
 jobs:
   - name: upload-stemcells
@@ -136,95 +40,8 @@ jobs:
           - get: pcf-automation-tasks
             params:
               unpack: true
-          - get: pas-stemcell
-            trigger: true
-          - get: apm-stemcell
-            trigger: true
-          - get: spring-cloud-services-stemcell
-            trigger: true
-          - get: isolation-segment-stemcell
-            trigger: true
-          - get: forgerock-stemcell
-            trigger: true
           - get: splunk-stemcell
             trigger: true
-          - get: mysql-stemcell
-            trigger: true
-          - get: rabbitmq-stemcell
-            trigger: true
-          - get: redis-stemcell
-            trigger: true
-          - get: configuration
-          - get: variable
-      - task: credhub-interpolate-env
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
-          CREDHUB_CLIENT: ((credhub-client))
-          CREDHUB_SECRET: ((credhub-secret))
-          CREDHUB_SERVER: ((credhub-server))
-          CREDHUB_CA_CERT: ((credhub-ca.certificate))
-          PREFIX: '/concourse/((foundation))'
-          INTERPOLATION_PATH: "((foundation))/env"
-        input_mapping:
-          files: configuration
-        output_mapping:
-          interpolated-files: env-int
-      - task: upload-pas-stemcell
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/upload-stemcell.yml
-        input_mapping:
-          env: env-int
-          stemcell: pas-stemcell
-        params:
-          ENV_FILE: ((foundation))/env/env.yml
-      - task: upload-isolation-segment-stemcell
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/upload-stemcell.yml
-        input_mapping:
-          env: env-int
-          stemcell: isolation-segment-stemcell
-        params:
-          ENV_FILE: ((foundation))/env/env.yml
-      - task: upload-forgerock-stemcell
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/upload-stemcell.yml
-        input_mapping:
-          env: env-int
-          stemcell: forgerock-stemcell
-        params:
-          ENV_FILE: ((foundation))/env/env.yml
-      - task: upload-mysql-stemcell
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/upload-stemcell.yml
-        input_mapping:
-          env: env-int
-          stemcell: mysql-stemcell
-        params:
-          ENV_FILE: ((foundation))/env/env.yml
-      - task: upload-rabbitmq-stemcell
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/upload-stemcell.yml
-        input_mapping:
-          env: env-int
-          stemcell: rabbitmq-stemcell
-        params:
-          ENV_FILE: ((foundation))/env/env.yml
-      - task: upload-apm-stemcell
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/upload-stemcell.yml
-        input_mapping:
-          env: env-int
-          stemcell: apm-stemcell
-        params:
-          ENV_FILE: ((foundation))/env/env.yml
-      - task: upload-spring-cloud-services-stemcell
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/upload-stemcell.yml
-        input_mapping:
-          env: env-int
-          stemcell: spring-cloud-services-stemcell
-        params:
-          ENV_FILE: ((foundation))/env/env.yml
       - task: upload-splunk-stemcell
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/upload-stemcell.yml
@@ -232,15 +49,7 @@ jobs:
           env: env-int
           stemcell: splunk-stemcell
         params:
-          ENV_FILE: ((foundation))/env/env.yml
-      - task: upload-redis-stemcell
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/upload-stemcell.yml
-        input_mapping:
-          env: env-int
-          stemcell: redis-stemcell
-        params:
-          ENV_FILE: ((foundation))/env/env.yml
+          ENV_FILE: env.yml
 
   - name: apply-stemcell-updates
     serial: true
@@ -255,26 +64,10 @@ jobs:
           - get: pcf-automation-tasks
             params:
               unpack: true
-          - get: configuration
-          - get: variable
-      - task: credhub-interpolate-env
-        image: pcf-automation-image
-        file: pcf-automation-tasks/tasks/credhub-interpolate.yml
-        params:
-          CREDHUB_CLIENT: ((credhub-client))
-          CREDHUB_SECRET: ((credhub-secret))
-          CREDHUB_SERVER: ((credhub-server))
-          CREDHUB_CA_CERT: ((credhub-ca.certificate))
-          PREFIX: '/concourse/((foundation))'
-          INTERPOLATION_PATH: "((foundation))/env"
-        input_mapping:
-          files: configuration
-        output_mapping:
-          interpolated-files: env-int
       - task: apply-product-changes
         image: pcf-automation-image
         file: pcf-automation-tasks/tasks/apply-changes.yml
         input_mapping:
           env: env-int
         params:
-          ENV_FILE: ((foundation))/env/env.yml
+          ENV_FILE: env.yml
