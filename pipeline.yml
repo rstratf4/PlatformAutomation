@@ -1,44 +1,85 @@
----
-resource_types:
-- name: pivnet
-  type: docker-image
-  source:
-    repository: http://dockerhub.docker.countrypassport.com/pivotalcf/pivnet-resource
-    tag: latest-final
-
 resources:
-- name: stemcells-ubuntu-xenial
-  type: pivnet
-  source:
-    api_token: ((api-token))
-    product_slug: bosh-stemcells-xenial
-    regexp: 
+  - name: pcf-automation-tasks
+    type: s3
+    source:
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets))
+      regexp: .*tasks-(.*).zip
 
-- name: configuration
-  type: git
-  source:
-    repository: no.clue
-    private_key: ((git-private-key))
+  - name: pcf-automation-image
+    type: s3
+    source:
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets))
+      regexp: .*image-(.*).tgz
+      
+  - name: splunk-stemcell
+    type: s3
+    source:
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      region_name: ((s3_region_name))
+      endpoint: ((s3_endpoint))
+      bucket: ((s3_buckets))
+      regexp: bosh-stemcell-(97.*)-vsphere.*\.tgz
 
-- name: pcf-automation-image
-  type: s3
-  source:
-    endpoint: internal.s3
-    secret_key: ((s3-seceret-key))
-    api_key: ((s3-api-key))
+  # configurations
+  - name: configuration
+    type: git
+    source:
+      private_key: ((pcf-automation-ssh-key_private_key))
+      uri: ((configuration_uri))
+      branch: master
 
-- name: pcf-automation-tasks
-  type: git
-  source:
-    repository: no.clue/tasks
-    private_key: ((git-private-key))
+  - name: variable
+    type: git
+    source:
+      private_key: ((pcf-automation-ssh-key_private_key))
+      uri: ((configuration_uri))
+      branch: master
 
 jobs:
-- name: upload-stemcells
-  plan:
-  - get: stemcells-ubuntu-xenial
-  - get: configuration
-  - get: pcf-automation-image
-  - task: upload-ss-to-opsman
-    config:
-      file: pcf-automation-tasks/tasks/upload-to-opsman.yml
+  - name: upload-stemcells
+    serial: true
+    plan:
+      - aggregate:
+          - get: pcf-automation-image
+            params:
+              unpack: true
+          - get: pcf-automation-tasks
+            params:
+              unpack: true
+          - get: configuration
+          - get: splunk-stemcell
+            trigger: true
+      - task: upload-splunk-stemcell
+        image: pcf-automation-image
+        file: PlatformAutomation/upload-stemcell.sh
+        params:
+          ENV_FILE: env.yml
+
+  - name: apply-stemcell-updates
+    serial: true
+    plan:
+      - aggregate:
+          - get: pcf-automation-image
+            params:
+              unpack: true
+            passed:
+              - upload-stemcells
+            trigger: true
+          - get: pcf-automation-tasks
+            params:
+              unpack: true
+          - get: configuration
+      - task: apply-product-changes
+        image: pcf-automation-image
+        file: PlatformAutomation/apply-changes.sh
+        params:
+          ENV_FILE: env.yml
