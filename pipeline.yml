@@ -37,18 +37,12 @@ resources:
       uri: ((configuration_uri))
       branch: master
 
-  - name: variable
-    type: git
-    source:
-      private_key: ((pcf-automation-ssh-key_private_key))
-      uri: ((configuration_uri))
-      branch: master
 
 jobs:
   - name: upload-stemcells
     serial: true
     plan:
-      - aggregate:
+      - in_parallel:
           - get: pcf-automation-image
             params:
               unpack: true
@@ -60,14 +54,14 @@ jobs:
             trigger: true
       - task: upload-splunk-stemcell
         image: pcf-automation-image
-        file: PlatformAutomation/upload-stemcell.sh
+        file: pcf-automation-tasks/upload-stemcell.sh
         params:
           ENV_FILE: env.yml
 
   - name: apply-stemcell-updates
     serial: true
     plan:
-      - aggregate:
+      - in_parallel:
           - get: pcf-automation-image
             params:
               unpack: true
@@ -80,6 +74,6 @@ jobs:
           - get: configuration
       - task: apply-product-changes
         image: pcf-automation-image
-        file: PlatformAutomation/apply-changes.sh
+        file: pcf-automation-tasks/apply-changes.sh
         params:
           ENV_FILE: env.yml
