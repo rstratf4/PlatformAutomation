@@ -1,5 +1,5 @@
 ---
-target: https://pcf.example.com
+target: ((opmans-url)) #https://pcf.example.com
 connect-timeout: 30            # default 5
 request-timeout: 1800          # default 1800
 skip-ssl-validation: false     # default false
