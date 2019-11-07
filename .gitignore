@@ -2,5 +2,3 @@
 env*
 vars*
 *.tgz
-stemcell/
-product/
