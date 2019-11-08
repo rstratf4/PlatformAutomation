@@ -25,7 +25,6 @@ resources:
   source:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
-    
     region_name: ((s3_region_name))
     secret_access_key: ((s3_secret_access_key))
     regexp: splunk-nozzle-(.*).pivotal
@@ -35,7 +34,6 @@ resources:
   source:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
-    
     region_name: ((s3_region_name))
     secret_access_key: ((s3_secret_access_key))
     regexp: splunk-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
@@ -45,7 +43,6 @@ resources:
   source:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
-    
     region_name: ((s3_region_name))
     secret_access_key: ((s3_secret_access_key))
     regexp: forgerock-broker-(.*).pivotal
@@ -55,7 +52,6 @@ resources:
   source:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
-    
     region_name: ((s3_region_name))
     secret_access_key: ((s3_secret_access_key))
     regexp: forgerock-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
@@ -65,7 +61,6 @@ resources:
   source:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
-    
     region_name: ((s3_region_name))
     secret_access_key: ((s3_secret_access_key))
     regexp: apm-(.*).pivotal
@@ -75,7 +70,6 @@ resources:
   source:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
-    
     region_name: ((s3_region_name))
     secret_access_key: ((s3_secret_access_key))
     regexp: apm-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
@@ -86,7 +80,6 @@ resources:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
     region_name: ((s3_region_name))
-    
     secret_access_key: ((s3_secret_access_key))
     regexp: pivotal-mysql-(.*).pivotal
 
@@ -96,7 +89,6 @@ resources:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
     region_name: ((s3_region_name))
-    
     secret_access_key: ((s3_secret_access_key))
     regexp: mysql-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
@@ -106,7 +98,6 @@ resources:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
     region_name: ((s3_region_name))
-    
     secret_access_key: ((s3_secret_access_key))
     regexp: p-spring-cloud-services-(.*).pivotal
 
@@ -116,7 +107,6 @@ resources:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
     region_name: ((s3_region_name))
-    
     secret_access_key: ((s3_secret_access_key))
     regexp: spring-cloud-services-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
@@ -126,7 +116,6 @@ resources:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
     region_name: ((s3_region_name))
-    
     secret_access_key: ((s3_secret_access_key))
     regexp: p-isolation-segment-(.*).pivotal
 
@@ -136,7 +125,6 @@ resources:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
     region_name: ((s3_region_name))
-    
     secret_access_key: ((s3_secret_access_key))
     regexp: iso-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
@@ -146,7 +134,6 @@ resources:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
     region_name: ((s3_region_name))
-    
     secret_access_key: ((s3_secret_access_key))
     regexp: p-rabbitmq-(.*).pivotal
 
@@ -156,7 +143,6 @@ resources:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
     region_name: ((s3_region_name))
-    
     secret_access_key: ((s3_secret_access_key))
     regexp: rabbitmq-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
@@ -166,7 +152,6 @@ resources:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
     region_name: ((s3_region_name))
-    
     secret_access_key: ((s3_secret_access_key))
     regexp: p-redis-(.*).pivotal
 
@@ -176,7 +161,6 @@ resources:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
     region_name: ((s3_region_name))
-    
     secret_access_key: ((s3_secret_access_key))
     regexp: redis-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
@@ -185,7 +169,6 @@ resources:
   source:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
-    
     region_name: ((s3_region_name))
     secret_access_key: ((s3_secret_access_key))
     regexp: cf-(.*).pivotal
@@ -195,7 +178,6 @@ resources:
   source:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
-    
     region_name: ((s3_region_name))
     secret_access_key: ((s3_secret_access_key))
     regexp: pas-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
@@ -213,7 +195,6 @@ resources:
   source:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
-    
     region_name: ((s3_region_name))
     secret_access_key: ((s3_secret_access_key))
     regexp: platform-automation-tasks-(.*).zip
@@ -223,7 +204,6 @@ resources:
   source:
     access_key_id: ((s3_access_key_id))
     bucket: ((s3_bucket))
-    
     region_name: ((s3_region_name))
     secret_access_key: ((s3_secret_access_key))
     regexp: platform-automation-image-(.*).tgz
