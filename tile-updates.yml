@@ -216,8 +216,8 @@ jobs:
           CREDHUB_SECRET: ((credhub-secret))
           CREDHUB_SERVER: ((credhub-server))
           CREDHUB_CA_CERT: ((credhub-ca.certificate))
-          PREFIX: '/concourse/((foundation))'
-          INTERPOLATION_PATH: "((foundation))/env"
+          PREFIX: '/concourse/main'
+          INTERPOLATION_PATH: "/env"
         input_mapping:
           files: configuration
         output_mapping:
