@@ -211,7 +211,7 @@ resources:
 jobs:
 - name: fetch-splunk
   plan:
-  - aggregate:
+  - in_parallel:
     - get: daily
       trigger: true
     - get: platform-automation-image
@@ -241,7 +241,7 @@ jobs:
     params:
       CONFIG_FILE: download-product-configs/splunk.yml
     output_mapping: {downloaded-stemcell: splunk-stemcell}
-  - aggregate:
+  - in_parallel:
     - put: splunk-product
       params:
         file: downloaded-product/*.pivotal
@@ -251,7 +251,7 @@ jobs:
 
 - name: fetch-forgerock
   plan:
-  - aggregate:
+  - in_parallel:
     - get: daily
       trigger: true
     - get: platform-automation-image
@@ -281,7 +281,7 @@ jobs:
     params:
       CONFIG_FILE: download-product-configs/forgerock.yml
     output_mapping: {downloaded-stemcell: forgerock-stemcell}
-  - aggregate:
+  - in_parallel:
     - put: forgerock-product
       params:
         file: downloaded-product/*.pivotal
@@ -291,7 +291,7 @@ jobs:
 
 - name: fetch-spring-cloud-services
   plan:
-  - aggregate:
+  - in_parallel:
     - get: daily
       trigger: true
     - get: platform-automation-image
@@ -321,7 +321,7 @@ jobs:
     params:
       CONFIG_FILE: download-product-configs/spring-cloud-services.yml
     output_mapping: {downloaded-stemcell: spring-cloud-services-stemcell}
-  - aggregate:
+  - in_parallel:
     - put: spring-cloud-services-product
       params:
         file: downloaded-product/*.pivotal
@@ -331,7 +331,7 @@ jobs:
 
 - name: fetch-isolation-segment
   plan:
-  - aggregate:
+  - in_parallel:
     - get: daily
       trigger: true
     - get: platform-automation-image
@@ -361,7 +361,7 @@ jobs:
     params:
       CONFIG_FILE: download-product-configs/isoseg.yml
     output_mapping: {downloaded-stemcell: iso-stemcell}
-  - aggregate:
+  - in_parallel:
     - put: isolation-segment-product
       params:
         file: downloaded-product/*.pivotal
@@ -371,7 +371,7 @@ jobs:
 
 - name: fetch-apm
   plan:
-  - aggregate:
+  - in_parallel:
     - get: daily
       trigger: true
     - get: platform-automation-image
@@ -401,7 +401,7 @@ jobs:
     params:
       CONFIG_FILE: download-product-configs/apm.yml
     output_mapping: {downloaded-stemcell: apm-stemcell}
-  - aggregate:
+  - in_parallel:
     - put: apm-product
       params:
         file: downloaded-product/*.pivotal
@@ -411,7 +411,7 @@ jobs:
 
 - name: fetch-rabbitmq
   plan:
-  - aggregate:
+  - in_parallel:
     - get: daily
       trigger: true
     - get: platform-automation-image
@@ -441,7 +441,7 @@ jobs:
     params:
       CONFIG_FILE: download-product-configs/rabbitmq.yml
     output_mapping: {downloaded-stemcell: rabbitmq-stemcell}
-  - aggregate:
+  - in_parallel:
     - put: rabbitmq-product
       params:
         file: downloaded-product/*.pivotal
@@ -451,7 +451,7 @@ jobs:
 
 - name: fetch-mysql
   plan:
-  - aggregate:
+  - in_parallel:
     - get: daily
       trigger: true
     - get: platform-automation-image
@@ -481,7 +481,7 @@ jobs:
     params:
       CONFIG_FILE: download-product-configs/mysql.yml
     output_mapping: {downloaded-stemcell: mysql-stemcell}
-  - aggregate:
+  - in_parallel:
     - put: mysql-product
       params:
         file: downloaded-product/*.pivotal
@@ -491,7 +491,7 @@ jobs:
 
 - name: fetch-redis
   plan:
-  - aggregate:
+  - in_parallel:
     - get: daily
       trigger: true
     - get: platform-automation-image
@@ -521,7 +521,7 @@ jobs:
     params:
       CONFIG_FILE: download-product-configs/redis.yml
     output_mapping: {downloaded-stemcell: redis-stemcell}
-  - aggregate:
+  - in_parallel:
     - put: redis-product
       params:
         file: downloaded-product/*.pivotal
@@ -531,7 +531,7 @@ jobs:
 
 - name: fetch-pas
   plan:
-  - aggregate:
+  - in_parallel:
     - get: daily
       trigger: true
     - get: platform-automation-image
@@ -561,7 +561,7 @@ jobs:
     params:
       CONFIG_FILE: download-product-configs/pas.yml
     output_mapping: {downloaded-stemcell: pas-stemcell}
-  - aggregate:
+  - in_parallel:
     - put: pas-product
       params:
         file: downloaded-product/*.pivotal
@@ -575,7 +575,7 @@ jobs:
   plan:
   - get: platform-automation-pivnet
     trigger: true
-  - aggregate:
+  - in_parallel:
     - put: platform-automation-tasks
       params:
         file: platform-automation-pivnet/*tasks*.zip

@@ -1,5 +1,5 @@
 configuration_uri:  #https://github.com location
-pcf-automation-ssh-key_private_key:  | #github ssh private key 
+platform-automation-ssh-key_private_key:  | #github ssh private key 
 s3_access_key_id: ## AWS  access key ID
 s3_bucket:  #S3 bucket
 #s3_bucket_pivnet_products:   #S3 bucket
