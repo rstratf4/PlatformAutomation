@@ -1,4 +1,4 @@
 # PlatformAutomation
 
-Downloading Tiles & Stemcells
-As well as Installing them
+Pipelines written for downloading Pivotal Tiles & Stemcells
+As well as installing them
