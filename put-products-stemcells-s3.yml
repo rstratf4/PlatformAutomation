@@ -97,6 +97,24 @@ jobs:
     params:
       CONFIG_FILE: download-product-configs/splunk.yml
     output_mapping: {downloaded-stemcell: splunk-stemcell}
+  - task: pivnet-rename
+    image: platform-automation-image
+    config: 
+      platform: linux
+      inputs: 
+        - name: downloaded-product
+        - name: splunk-stemcell
+      outputs:
+        - name: product-rename
+        - name: stemcell-rename
+      run:
+        path: /bin/bash
+        args:
+          - -c 
+          - >
+            pushd downloaded-product &&
+            mv "$(ls -1|head -n 1)" "$(ls -1|head -n 1|sed -e s/
+            
   - in_parallel:
     - put: splunk-product
       params:
