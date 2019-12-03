@@ -2,7 +2,7 @@
 pivnet-api-token: ((pivnet_token))
 pivnet-file-glob: "*.pivotal"
 pivnet-product-slug: splunk-nozzle
-product-version: 1.0.2
+product-version-regex: ^1\.0\..*$
 stemcell-iaas: vsphere
 
 s3-access-key-id: ((s3_access_key_id))

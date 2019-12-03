@@ -2,7 +2,7 @@
 pivnet-api-token: ((pivnet_token))
 pivnet-file-glob: "*.pivotal"
 pivnet-product-slug: pivotal_single_sign-on_service
-product-version: 1.9.1
+product-version-regex: ^1\.9\..*$
 stemcell-iaas: vsphere
 
 s3-access-key-id: ((s3_access_key_id))
