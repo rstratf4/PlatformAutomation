@@ -113,7 +113,10 @@ jobs:
           - -c 
           - >
             pushd downloaded-product &&
-            mv "$(ls -1|head -n 1)" "$(ls -1|head -n 1|sed -e s/
+            mv "$(ls -1|head -n 1)" "../product-rename/$(ls -1|head -n 1|sed -e 's/\[.*\]\(.*\)/\1/')" &&
+            popd &&
+            pushd downloaded-stemcell &&
+            mv "$(ls -1|head -n 1)" "../stemcell-rename/$(ls -1|head -n 1|sed -e 's/\[.*\]\(.*\)/\1/')"
             
   - in_parallel:
     - put: splunk-product
